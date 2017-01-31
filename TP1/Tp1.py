@@ -34,7 +34,7 @@ def quickSort(arr):
 
 
 '''
-Quick Sort avec un pivot alatoire
+Quick Sort avec un pivot aleatoire
 '''
 def quickSortRandom(arr):
     less = []
