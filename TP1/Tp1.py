@@ -88,46 +88,11 @@ def fileToArray(file):
             array.append(line)
         return array
 
+data_dictionary = {0: "1000", 1: "5000", 2: "10000", 3: "50000", 4: "100000", 5: "500000"}
 
-for i in range(0,10):
-    t0 = time.time()
-    a = quickSort(fileToArray("INF4705_H17_TP1_donnees/0_9/testset_1000_" + str(i) + ".txt"))
-    t1 = time.time()
-    print("1000 data: 0_9/" + str(i) + ": " + str(t1-t0))
-
-for i in range(0,10):
-    t0 = time.time()
-    a = quickSort(fileToArray("INF4705_H17_TP1_donnees/0_9/testset_5000_" + str(i) + ".txt"))
-    t1 = time.time()
-    print("5000 data: 0_9/" + str(i) + ": " + str(t1-t0))
-
-for i in range(0,10):
-    t0 = time.time()
-    a = quickSort(fileToArray("INF4705_H17_TP1_donnees/0_9/testset_10000_" + str(i) + ".txt"))
-    t1 = time.time()
-    print("10000 data: 0_9/" + str(i) + ": " + str(t1-t0))
-
-for i in range(0,10):
-    t0 = time.time()
-    a = quickSort(fileToArray("INF4705_H17_TP1_donnees/0_9/testset_50000_" + str(i) + ".txt"))
-    t1 = time.time()
-    print("50000 data: 0_9/" + str(i) + ": " + str(t1-t0))
-
-for i in range(0,10):
-    t0 = time.time()
-    a = quickSort(fileToArray("INF4705_H17_TP1_donnees/0_9/testset_100000_" + str(i) + ".txt"))
-    t1 = time.time()
-    print("100000 data: 0_9/" + str(i) + ": " + str(t1-t0))
-
-
-#quand meme long, environ 1 min
-'''
-for i in range(0,10):
-    t0 = time.time()
-    a = quickSort(fileToArray("INF4705_H17_TP1_donnees/0_9/testset_50000_" + str(i) + ".txt"))
-    t1 = time.time()
-    print("50000 data: 0_9/" + str(i) + ": " + str(t1-t0))
-'''
-
-
-
+for i in range(0,6):
+    for j in range(0,10):
+        t0 = time.time()
+        a = insertionSort(fileToArray("INF4705_H17_TP1_donnees/0_9/testset_" + data_dictionary[i] + "_" + str(j) + ".txt"))
+        t1 = time.time()
+        print(data_dictionary[i] + " data: 0_9/" + str(j) + ": " + str(t1-t0))
