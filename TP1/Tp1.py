@@ -78,26 +78,56 @@ def insertionSort(my_list):
     return my_list
 
 
-a = [4, 65, 2, -31, 0, 99, 83, 782, 1]
-print("QuickSort pivot = 1 ")
-print("Before: ")
-print(a)
-a = quickSort(a)
-print("After:")
-print(a)
+'''
+Read file and append data to a list
+'''
+def fileToArray(file):
+    with open(file, "r") as ins:
+        array = []
+        for line in ins:
+            array.append(line)
+        return array
 
-a = [4, 65, 2, -31, 0, 99, 83, 782, 1]
-print("QuickSort pivot = random ")
-print("Before: ")
-print(a)
-a = quickSortRandom(a)
-print("After:")
-print(a)
 
-a = [4, 65, 2, -31, 0, 99, 83, 782, 1]
-print("InsertionSort")
-print("Before: ")
-print(a)
-a = insertionSort(a)
-print("After:")
-print(a)
+for i in range(0,10):
+    t0 = time.time()
+    a = quickSort(fileToArray("INF4705_H17_TP1_donnees/0_9/testset_1000_" + str(i) + ".txt"))
+    t1 = time.time()
+    print("1000 data: 0_9/" + str(i) + ": " + str(t1-t0))
+
+for i in range(0,10):
+    t0 = time.time()
+    a = quickSort(fileToArray("INF4705_H17_TP1_donnees/0_9/testset_5000_" + str(i) + ".txt"))
+    t1 = time.time()
+    print("5000 data: 0_9/" + str(i) + ": " + str(t1-t0))
+
+for i in range(0,10):
+    t0 = time.time()
+    a = quickSort(fileToArray("INF4705_H17_TP1_donnees/0_9/testset_10000_" + str(i) + ".txt"))
+    t1 = time.time()
+    print("10000 data: 0_9/" + str(i) + ": " + str(t1-t0))
+
+for i in range(0,10):
+    t0 = time.time()
+    a = quickSort(fileToArray("INF4705_H17_TP1_donnees/0_9/testset_50000_" + str(i) + ".txt"))
+    t1 = time.time()
+    print("50000 data: 0_9/" + str(i) + ": " + str(t1-t0))
+
+for i in range(0,10):
+    t0 = time.time()
+    a = quickSort(fileToArray("INF4705_H17_TP1_donnees/0_9/testset_100000_" + str(i) + ".txt"))
+    t1 = time.time()
+    print("100000 data: 0_9/" + str(i) + ": " + str(t1-t0))
+
+
+#quand meme long, environ 1 min
+'''
+for i in range(0,10):
+    t0 = time.time()
+    a = quickSort(fileToArray("INF4705_H17_TP1_donnees/0_9/testset_50000_" + str(i) + ".txt"))
+    t1 = time.time()
+    print("50000 data: 0_9/" + str(i) + ": " + str(t1-t0))
+'''
+
+
+
