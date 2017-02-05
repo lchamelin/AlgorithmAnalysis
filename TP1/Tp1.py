@@ -113,6 +113,10 @@ for i in range(0,6):
 
 plt.bar(range(len(time_dictionary)), time_dictionary.values(), align='center')
 plt.xticks(range(len(time_dictionary)), list(time_dictionary.keys()))
+plt.suptitle('Data in serie 0_9', fontsize=20)
+plt.xlabel('Numer of data to sort', fontsize=18)
+plt.ylabel('Average sorting time', fontsize=16)
+plt.savefig('data_10_19.png')
 plt.savefig('data_0_9.png')
 
 
@@ -141,6 +145,9 @@ for i in range(0,6):
 
 plt.bar(range(len(time_dictionary)), time_dictionary.values(), align='center')
 plt.xticks(range(len(time_dictionary)), list(time_dictionary.keys()))
+plt.suptitle('Data in serie 10_19', fontsize=20)
+plt.xlabel('Numer of data to sort', fontsize=18)
+plt.ylabel('Average sorting time', fontsize=16)
 plt.savefig('data_10_19.png')
 
 
