@@ -1,12 +1,7 @@
 import os
 import random
 import time
-import matplotlib
-
-
-
-#matplotlib pour les graph
-#ou csv
+import matplotlib.pyplot as plt
 
 
 '''
@@ -89,10 +84,92 @@ def fileToArray(file):
         return array
 
 data_dictionary = {0: "1000", 1: "5000", 2: "10000", 3: "50000", 4: "100000", 5: "500000"}
+time_dictionary = {"1000" : 0, "5000" : 0, "10000" : 0, "50000" : 0, "100000" : 0, "500000" : 0}
+folder_data = {0: "0_9", 1: "10_19", 2: "20_29"}
 
+
+'''
+First set of data in folder 0_9
+'''
+print("Folder " + folder_data[0] + ":")
 for i in range(0,6):
-    for j in range(0,10):
+    timeArray = []
+    avg = 0
+    for j in range(0,9):
         t0 = time.time()
-        a = insertionSort(fileToArray("INF4705_H17_TP1_donnees/0_9/testset_" + data_dictionary[i] + "_" + str(j) + ".txt"))
+        a = quickSort(fileToArray("INF4705_H17_TP1_donnees/" + folder_data[0] + "/testset_" + data_dictionary[i] + "_" + str(j) + ".txt"))
         t1 = time.time()
-        print(data_dictionary[i] + " data: 0_9/" + str(j) + ": " + str(t1-t0))
+        algoTime = t1-t0
+
+        #Append sorting time to an array
+        timeArray.append(algoTime)
+
+    for k in range(0, 9):
+        avg += timeArray[k]
+    k = 0
+
+    print("Average of " + data_dictionary[i] + ": " , avg/10)
+    time_dictionary[data_dictionary[i]] = avg/10
+
+plt.bar(range(len(time_dictionary)), time_dictionary.values(), align='center')
+plt.xticks(range(len(time_dictionary)), list(time_dictionary.keys()))
+plt.savefig('data_0_9.png')
+
+
+'''
+Second set of data in folder 10_19
+'''
+print("Folder " + folder_data[1] + ":")
+for i in range(0,6):
+    timeArray = []
+    avg = 0
+    for j in range(10,19):
+        t0 = time.time()
+        a = quickSort(fileToArray("INF4705_H17_TP1_donnees/" + folder_data[1] + "/testset_" + data_dictionary[i] + "_" + str(j) + ".txt"))
+        t1 = time.time()
+        algoTime = t1-t0
+
+        #Append sorting time to an array
+        timeArray.append(algoTime)
+
+    for k in range(0, 9):
+        avg += timeArray[k]
+    k = 0
+
+    print("Average of " + data_dictionary[i] + ": " , avg/10)
+    time_dictionary[data_dictionary[i]] = avg/10
+
+plt.bar(range(len(time_dictionary)), time_dictionary.values(), align='center')
+plt.xticks(range(len(time_dictionary)), list(time_dictionary.keys()))
+plt.savefig('data_10_19.png')
+
+
+'''
+Third set of data in folder 20_29
+NOT WORKING: RuntimeError: maximum recursion depth exceeded in cmp
+'''
+'''
+print("Folder " + folder_data[2] + ":")
+for i in range(0,6):
+    timeArray = []
+    avg = 0
+    for j in range(20,29):
+        t0 = time.time()
+        a = quickSortRandom(fileToArray("INF4705_H17_TP1_donnees/" + folder_data[2] + "/testset_" + data_dictionary[i] + "_" + str(j) + ".txt"))
+        t1 = time.time()
+        algoTime = t1-t0
+
+        #Append sorting time to an array
+        timeArray.append(algoTime)
+
+    for k in range(0, 9):
+        avg += timeArray[k]
+    k = 0
+
+    print("Average of " + data_dictionary[i] + ": " , avg/10)
+    time_dictionary[data_dictionary[i]] = avg/10
+
+plt.bar(range(len(time_dictionary)), time_dictionary.values(), align='center')
+plt.xticks(range(len(time_dictionary)), list(time_dictionary.keys()))
+plt.savefig('data_20_29.png')
+'''
