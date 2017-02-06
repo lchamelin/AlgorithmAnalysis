@@ -92,7 +92,7 @@ folder_data = {0: "0_9", 1: "10_19", 2: "20_29"}
 
 
 '''
-Second set of data in folder 10_19
+All set of data in all folder
 '''
 for m in range(0,2):
     print("Folder " + folder_data[m] + ":")
