@@ -83,100 +83,53 @@ def fileToArray(file):
             array.append(line)
         return array
 
+'''
+Dictionaries to call all files in all folder
+'''
 data_dictionary = {0: "1000", 1: "5000", 2: "10000", 3: "50000", 4: "100000", 5: "500000"}
 time_dictionary = {"1000" : 0, "5000" : 0, "10000" : 0, "50000" : 0, "100000" : 0, "500000" : 0}
 folder_data = {0: "0_9", 1: "10_19", 2: "20_29"}
 
 
 '''
-First set of data in folder 0_9
-'''
-print("Folder " + folder_data[0] + ":")
-for i in range(0,6):
-    timeArray = []
-    avg = 0
-    for j in range(0,9):
-        t0 = time.time()
-        a = quickSort(fileToArray("INF4705_H17_TP1_donnees/" + folder_data[0] + "/testset_" + data_dictionary[i] + "_" + str(j) + ".txt"))
-        t1 = time.time()
-        algoTime = t1-t0
-
-        #Append sorting time to an array
-        timeArray.append(algoTime)
-
-    for k in range(0, 9):
-        avg += timeArray[k]
-    k = 0
-
-    print("Average of " + data_dictionary[i] + ": " , avg/10)
-    time_dictionary[data_dictionary[i]] = avg/10
-
-plt.bar(range(len(time_dictionary)), time_dictionary.values(), align='center')
-plt.xticks(range(len(time_dictionary)), list(time_dictionary.keys()))
-plt.suptitle('Data in serie 0_9', fontsize=20)
-plt.xlabel('Numer of data to sort', fontsize=18)
-plt.ylabel('Average sorting time', fontsize=16)
-plt.savefig('data_10_19.png')
-plt.savefig('data_0_9.png')
-
-
-'''
 Second set of data in folder 10_19
 '''
-print("Folder " + folder_data[1] + ":")
-for i in range(0,6):
-    timeArray = []
-    avg = 0
-    for j in range(10,19):
-        t0 = time.time()
-        a = quickSort(fileToArray("INF4705_H17_TP1_donnees/" + folder_data[1] + "/testset_" + data_dictionary[i] + "_" + str(j) + ".txt"))
-        t1 = time.time()
-        algoTime = t1-t0
+for m in range(0,2):
+    print("Folder " + folder_data[m] + ":")
+    for i in range(0,6):
+        timeArray = []
+        avg = 0
 
-        #Append sorting time to an array
-        timeArray.append(algoTime)
+        if folder_data[m] == "0_9":
+            for j in range(0,9):
+                t0 = time.time()
+                a = quickSort(fileToArray("INF4705_H17_TP1_donnees/" + folder_data[m] + "/testset_" + data_dictionary[i] + "_" + str(j) + ".txt"))
+                t1 = time.time()
+                algoTime = t1-t0
 
-    for k in range(0, 9):
-        avg += timeArray[k]
-    k = 0
+                #Append sorting time to an array
+                timeArray.append(algoTime)
 
-    print("Average of " + data_dictionary[i] + ": " , avg/10)
-    time_dictionary[data_dictionary[i]] = avg/10
+        if folder_data[m] == "10_19":
+            for j in range(10,19):
+                t0 = time.time()
+                a = quickSort(fileToArray("INF4705_H17_TP1_donnees/" + folder_data[m] + "/testset_" + data_dictionary[i] + "_" + str(j) + ".txt"))
+                t1 = time.time()
+                algoTime = t1-t0
 
-plt.bar(range(len(time_dictionary)), time_dictionary.values(), align='center')
-plt.xticks(range(len(time_dictionary)), list(time_dictionary.keys()))
-plt.suptitle('Data in serie 10_19', fontsize=20)
-plt.xlabel('Numer of data to sort', fontsize=18)
-plt.ylabel('Average sorting time', fontsize=16)
-plt.savefig('data_10_19.png')
+                #Append sorting time to an array
+                timeArray.append(algoTime)
 
+        for k in range(0, 9):
+            avg += timeArray[k]
+        k = 0
 
-'''
-Third set of data in folder 20_29
-NOT WORKING: RuntimeError: maximum recursion depth exceeded in cmp
-'''
-'''
-print("Folder " + folder_data[2] + ":")
-for i in range(0,6):
-    timeArray = []
-    avg = 0
-    for j in range(20,29):
-        t0 = time.time()
-        a = quickSortRandom(fileToArray("INF4705_H17_TP1_donnees/" + folder_data[2] + "/testset_" + data_dictionary[i] + "_" + str(j) + ".txt"))
-        t1 = time.time()
-        algoTime = t1-t0
+        print("Average of " + data_dictionary[i] + ": " , avg/10)
+        time_dictionary[data_dictionary[i]] = avg/10
 
-        #Append sorting time to an array
-        timeArray.append(algoTime)
-
-    for k in range(0, 9):
-        avg += timeArray[k]
-    k = 0
-
-    print("Average of " + data_dictionary[i] + ": " , avg/10)
-    time_dictionary[data_dictionary[i]] = avg/10
-
-plt.bar(range(len(time_dictionary)), time_dictionary.values(), align='center')
-plt.xticks(range(len(time_dictionary)), list(time_dictionary.keys()))
-plt.savefig('data_20_29.png')
-'''
+    plt.bar(range(len(time_dictionary)), time_dictionary.values(), align='center')
+    plt.xticks(range(len(time_dictionary)), list(time_dictionary.keys()))
+    plt.suptitle('Data in serie 10_19', fontsize=20)
+    plt.xlabel('Numer of data to sort', fontsize=18)
+    plt.ylabel('Average sorting time', fontsize=16)
+    plt.savefig('data' + folder_data[m] + '.png')
