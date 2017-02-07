@@ -1,11 +1,11 @@
 import os
 import random
 import time
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import sys
 
 
-
+print(sys.argv[0])
 '''
 Quick Sort avec un pivot au premier element
 # Source: https://rosettacode.org/wiki/Sorting_algorithms/Quicksort#Python
@@ -86,8 +86,9 @@ def fileToArray(file):
         return array
 
 
-if(sys.argv[0] == "quick"):
-    quickSort(fileToArray(str(sys.argv[1])))
+if(sys.argv[1] == "quick"):
+    a = quickSort(fileToArray(str(sys.argv[2])))
+    print(a)
 
 '''
 Dictionaries to call all files in all folder
