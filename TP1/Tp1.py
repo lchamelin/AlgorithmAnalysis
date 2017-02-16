@@ -175,6 +175,7 @@ class SortingAlgorithme:
 
 algo = SortingAlgorithme()
 
+'''
 if(sys.argv[1] == "quick"):
     print("Here")
     array = algo.fileToArray(str(sys.argv[2]))
@@ -229,5 +230,5 @@ if(len(sys.argv) >= 4):
 
         elif((sys.argv[4] == "-t")):
             print(algoTime)
-
+'''
 
