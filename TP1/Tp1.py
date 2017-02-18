@@ -73,27 +73,6 @@ class SortingAlgorithme:
             more = self.quickSort(more)
         return less + pivotList + more
 
-
-    '''
-    #Insertion sort
-    '''
-    def insertionSort(self, my_list):
-        for i in range(1, len(my_list)):
-
-            val_current = my_list[i]
-            pos = i
-
-            # check backwards through sorted list for proper pos of val_current
-            while ((pos > 0) and (my_list[pos - 1] > val_current)):
-                my_list[pos] = my_list[pos - 1]
-                pos = pos - 1
-
-            if pos != i:
-                my_list[pos] = val_current
-
-        return my_list
-
-
     '''
     #Read file and append data to a list
     '''
@@ -125,23 +104,6 @@ class SortingAlgorithme:
                 break
         self.quicksortSeuil(numList, first, right)
         self.quicksortSeuil(numList, right+1, last)
-
-
-    def partition(self, numList, first, last):
-        piv = numList[first]
-        i = first - 1
-        for j in range(first, last):
-            if numList[j] < piv:
-                i += 1
-                temp = numList[i]
-                numList[i] = numList[j]
-                numList[j] = temp
-
-        tempo = numList[i + 1]
-        numList[i + 1] = numList[last]
-        numList[last] = tempo
-
-        return i + 1
 
     def quicksortSeuilRandom(self, numList, first, last):
         m = 10
