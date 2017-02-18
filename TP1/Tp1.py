@@ -99,15 +99,32 @@ class SortingAlgorithme:
     '''
 
     def quicksortSeuil(self, numList, first, last):
-        m = 10
-        if first < last:
-            sizeArr = last - first + 1
-            if (sizeArr < m):
-                self.insert_sort(numList, first, last)
+        left = first - 1
+        right = last + 1
+        pivot = numList[first]
+        seuil = 10
+
+        if ((last - first) < seuil):
+            self.insert_sort(numList, first, last)
+            return
+
+        while True :
+            right = right - 1
+            while numList[right] > pivot:
+                right = right - 1
+
+            left = left + 1
+            while numList[left] < pivot:
+                left = left + 1
+
+            if left < right:
+                temp = numList[left]
+                numList[left] = numList[right]
+                numList[right] = temp
             else:
-                mid = self.partition(numList, first, last)
-                self.quicksortSeuil(numList, first, mid - 1)
-                self.quicksortSeuil(numList, mid + 1, last)
+                break
+        self.quicksortSeuil(numList, first, right)
+        self.quicksortSeuil(numList, right+1, last)
 
 
     def partition(self, numList, first, last):
@@ -159,6 +176,7 @@ class SortingAlgorithme:
         for x in range(first, last + 1):
             key = numList[x]
             y = x - 1
+
             while y > -1 and numList[y] > key:
                 numList[y + 1] = numList[y]
                 y = y - 1
@@ -175,7 +193,6 @@ class SortingAlgorithme:
 
 algo = SortingAlgorithme()
 
-'''
 if(sys.argv[1] == "quick"):
     print("Here")
     array = algo.fileToArray(str(sys.argv[2]))
@@ -220,7 +237,7 @@ if(len(sys.argv) >= 4):
         for elem in array:
             print(elem)
 
-    if((sys.argv[3] == "-t")):
+    elif((sys.argv[3] == "-t")):
         print(algoTime)
 
     if(len(sys.argv) >= 5):
@@ -230,5 +247,4 @@ if(len(sys.argv) >= 4):
 
         elif((sys.argv[4] == "-t")):
             print(algoTime)
-'''
 
