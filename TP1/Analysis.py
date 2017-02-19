@@ -28,7 +28,7 @@ taille = [1000, 5000, 10000, 50000, 100000, 500000]
 All set of data in all folder for all algorithme
 '''
 for s in range(4,5):
-    for m in range(0,1):
+    for m in range(0,3):
         print("Folder " + folder_data[m] + ":")
         avgArr = []
         for i in range(0,6):
