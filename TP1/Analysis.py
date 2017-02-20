@@ -8,15 +8,16 @@ import sys
 import Tp1 as algo
 import math
 
-
+#Set the recursion limit
 sys.setrecursionlimit(100000)
+
+#Create an objet to acces all algotithme methods
 algo = algo.SortingAlgorithme()
 
 
 '''
 Dictionaries to call all files in all folder
 '''
-
 data_dictionary = {0: "1000", 1: "5000", 2: "10000", 3: "50000", 4: "100000", 5: "500000"}
 time_dictionary = {"1000" : 0, "5000" : 0, "10000" : 0, "50000" : 0, "100000" : 0, "500000" : 0}
 folder_data = {0: "0_9", 1: "10_19", 2: "20_29"}
