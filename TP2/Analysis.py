@@ -29,7 +29,7 @@ avgArr = []
 All set of data in all files for all algorithme
 '''
 
-for s in range(0,1):
+for s in range(0,6):
     for m in range(0,3):
         for i in range(0,10):
             timeArray = []

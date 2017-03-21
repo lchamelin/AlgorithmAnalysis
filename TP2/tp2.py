@@ -5,9 +5,67 @@ import sys
 import math
 import numpy as np
 import networkx as nx
+# Python program to print topological sorting of a DAG
+from collections import defaultdict
+
+
+# Class to represent a graph
+class Graph:
+    """
+    References:
+    http: // www.geeksforgeeks.org / all - topological - sorts - of - a - directed - acyclic - graph /
+    """
+
+    def __init__(self, vertices):
+        self.graph = defaultdict(list)  # dictionary containing adjacency List
+        self.V = vertices  # No. of vertices
+
+        #Initialising all indegree with 0
+        for i in range(0, self.V):
+            self.indegree = 0
+
+    # function to add an edge to graph
+    def addEdge(self, u, v):
+        self.graph[u].append(v)
+
+    # A recursive function used by topologicalSort
+    def topologicalSortUtil(self, v, visited, stack):
+        #Know if we all found the topological sort
+        flag = False
+
+        # Mark the current node as visited.
+        visited[v] = True
+
+        # Recur for all the vertices adjacent to this vertex
+        for i in self.graph[v]:
+            if visited[i] == False:
+                self.topologicalSortUtil(i, visited, stack)
+
+        # Push current vertex to stack which stores result
+        stack.insert(0, v)
+
+    # The function to do Topological Sort. It uses recursive
+    # topologicalSortUtil()
+    def topologicalSort(self):
+        # Mark all the vertices as not visited
+        visited = [False] * self.V
+        stack = []
+
+        # Call the recursive helper function to store Topological
+        # Sort starting from all vertices one by one
+        for i in range(self.V):
+            if visited[i] == False:
+                self.topologicalSortUtil(i, visited, stack)
+
+        # Print contents of stack
+        print(stack)
 
 
 class SortingAlgorithme:
+    """
+    References:
+    https: // networkx.github.io / documentation / networkx - 1.10 / tutorial / tutorial.html
+    """
     def enumerate_dag(self, g):
       def enumerate_r(n, paths, visited, a_path = []):
         a_path += [n]
@@ -61,6 +119,7 @@ class SortingAlgorithme:
                 u = v
                 v = dist[v][1]
             path.reverse()
+            print(path)
             return path
 
 
@@ -80,7 +139,7 @@ class SortingAlgorithme:
         #Append the node that have no more edges
         for i in G.nodes():
             L.append([i])
-
+        print(L)
         return L
 
 
@@ -88,13 +147,14 @@ class SortingAlgorithme:
     def voraceApproximation(self, G):
         algo = SortingAlgorithme()
         nbNode = G.number_of_nodes()
+        print(nbNode)
 
         longestChains = algo.calculateAllChains(G)
         nbExtensionLineaire = len(longestChains)
 
         h = 0
         for i in range (1, nbExtensionLineaire):
-            h += -(len(longestChains[i]) / G.number_of_nodes()) * (math.log(len(longestChains[i]) / G.number_of_nodes(), 2))
+            h += -(len(longestChains[i]) / nbNode) * (math.log(len(longestChains[i]) / nbNode, 2))
 
         expo = (0.5 * nbNode * h)
         nbExtensionLineaireApprox = math.pow(2, expo)
@@ -123,19 +183,37 @@ class SortingAlgorithme:
 
 # instantiation dun algo de la class SortingAlgorithme
 algo = SortingAlgorithme()
+
 G = nx.DiGraph();
 
-array = algo.fileToArray("tp2-donnees/poset10-4c")
+array = algo.fileToArray("tp2-donnees/poset10-4b")
 G.add_edges_from(array)
 
 print(G.number_of_nodes(), G.number_of_edges())
 
 transitiveGraph = algo.transitive_reduction(G)
 
+
 print(algo.voraceApproximation(transitiveGraph))
 
-# Switch case qui permet de choisir le bon algo en fonctione des parametres
-# passes au terminal par le user
+graph = Graph(10)
+
+graph.addEdge(1,0)
+graph.addEdge(1, 4)
+graph.addEdge(1, 8)
+graph.addEdge(2, 5)
+graph.addEdge(5, 8)
+graph.addEdge(6, 0)
+graph.addEdge(6, 2)
+graph.addEdge(6, 4)
+graph.addEdge(7, 2)
+graph.addEdge(9, 3)
+graph.addEdge(9, 6)
+graph.addEdge(9, 7)
+
+graph.topologicalSort()
+
+# IF ELSE to chose the right algorithm from the terminal
 '''
 if(sys.argv[1] == "vorace"):
     array = algo.fileToArray(str(sys.argv[2]))
