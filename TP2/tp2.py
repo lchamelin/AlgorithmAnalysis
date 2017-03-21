@@ -42,6 +42,7 @@ class SortingAlgorithme:
             TR.add_edges_from((u,v) for v in u_edges)
         return TR
 
+
     #Get the longest path
     def dag_longest_path(self, G, weight='weight', default_weight=1):
         if(G.number_of_edges() !=0):
@@ -63,6 +64,7 @@ class SortingAlgorithme:
             return path
 
 
+    #Calculate all chains
     def calculateAllChains(self, G):
         algo = SortingAlgorithme()
         L = []
@@ -82,6 +84,7 @@ class SortingAlgorithme:
         return L
 
 
+    # Algorithme 1 (Vorace)
     def voraceApproximation(self, G):
         algo = SortingAlgorithme()
         nbNode = G.number_of_nodes()
@@ -96,42 +99,55 @@ class SortingAlgorithme:
         expo = (0.5 * nbNode * h)
         nbExtensionLineaireApprox = math.pow(2, expo)
 
-
         return nbExtensionLineaireApprox
 
-############################################################################
-############################################################################
 
+    #Append to an array what we read from the file
+    def fileToArray(self, file):
+        with open(file, "r") as f:
+            #Array to
+            array = []
+            #To skip the first line
+            next(f)
+
+            for line in f:
+                int_list = [int(i) for i in line.split()]
+                array.append(int_list)
+                #print(int_list)
+
+            return array
+
+
+############################################################################
+############################################################################
 
 # instantiation dun algo de la class SortingAlgorithme
 algo = SortingAlgorithme()
 G = nx.DiGraph();
 
-G.add_edges_from([(1, 0), (1, 4), (1, 8), (2, 5), (5, 8), (6, 0), (6, 2), (6, 4), (7, 2), (9, 3), (9, 6), (9, 7)])
+array = algo.fileToArray("tp2-donnees/poset10-4c")
+G.add_edges_from(array)
 
 print(G.number_of_nodes(), G.number_of_edges())
 
-t = algo.transitive_reduction(G)
+transitiveGraph = algo.transitive_reduction(G)
 
-print(algo.voraceApproximation(G))
-
-
-
-
-
+print(algo.voraceApproximation(transitiveGraph))
 
 # Switch case qui permet de choisir le bon algo en fonctione des parametres
 # passes au terminal par le user
 '''
-if(sys.argv[1] == "quick"):
+if(sys.argv[1] == "vorace"):
     array = algo.fileToArray(str(sys.argv[2]))
     # Debuter le calcul de temps
     t0 = time.time()
-    array = algo.quickSort(array)
+    G.add_edges_from(theArray)
+    t = algo.transitive_reduction(G)
+    nbExtentionLineaire = algo.voraceApproximation(G)
     # Prendre le temps que l'algo a prit pour sort
     t1 = time.time()
 
-elif (sys.argv[1] == "quickRandom"):
+elif (sys.argv[1] == "dynamique"):
     array = algo.fileToArray(str(sys.argv[2]))
     # Debuter le calcul de temps
     t0 = time.time()
@@ -139,7 +155,7 @@ elif (sys.argv[1] == "quickRandom"):
     # Prendre le temps que l'algo a prit pour sort
     t1 = time.time()
 
-elif (sys.argv[1] == "counting"):
+elif (sys.argv[1] == "retourArriere"):
     array = algo.fileToArray(str(sys.argv[2]))
     # Debuter le calcul de temps
     t0 = time.time()
@@ -147,34 +163,17 @@ elif (sys.argv[1] == "counting"):
     # Prendre le temps que l'algo a prit pour sort
     t1 = time.time()
 
-elif (sys.argv[1] == "quickSeuil"):
-    array = algo.fileToArray(str(sys.argv[2]))
-    # Debuter le calcul de temps
-    t0 = time.time()
-    algo.quicksortSeuil(array, 0, len(array) - 1)
-    # Prendre le temps que l'algo a prit pour sort
-    t1 = time.time()
 
-elif (sys.argv[1] == "quickRandomSeuil"):
-    array = algo.fileToArray(str(sys.argv[2]))
-    # Debuter le calcul de temps
-    t0 = time.time()
-    algo.quicksortSeuilRandom(array, 0, len(array) - 1)
-    # Prendre le temps que l'algo a prit pour sort
-    t1 = time.time()
-
-
-# calcul du temps pour l'execution de lalgo choisi.
+#Calculate time for the algorithm execution
 algoTime = t1-t0
 
-# Switch case pour gerer les options entrer au teminal
-# Si un 'P' est entrer, les donnees seront imprime triees au terminal
-# Si un 't' est entrer, le temps d'execution de tri sera imprime au terminal
+#IF ELSE to execute the 3 different algorithm
+#If P is entered, we print the number on linear extension to the terminal
+#If t is entered, we print the execution time to the terminal
 if(len(sys.argv) >= 4):
     # Si 'p' est entre
     if(sys.argv[3] == "-p"):
-        for elem in array:
-            print(elem)
+        print(nbExtentionLineaire)
     # Si 't' est entre
     elif((sys.argv[3] == "-t")):
         print(algoTime)
@@ -182,11 +181,9 @@ if(len(sys.argv) >= 4):
     if(len(sys.argv) >= 5):
         # Si 'p' est entre
         if(sys.argv[4] == "-p"):
-            for elem in array:
-                print(elem)
+            print(nbExtentionLineaire)
         # Si 't' est entre
         elif((sys.argv[4] == "-t")):
             print(algoTime)
 
 '''
-
