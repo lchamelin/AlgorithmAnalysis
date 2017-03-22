@@ -57,7 +57,7 @@ class Graph:
 
         if(flag == False):
             self.count += 1
-            print(self.count)
+
 
 
     # The function to do Topological Sort. It uses recursive
@@ -72,6 +72,44 @@ class Graph:
         #print(self.visited)
 
         self.topologicalSortUtil(stack, self.visited)
+
+
+    # # A utility function to print the solution
+    # def printSolution(self, reach):
+    #     print ("Following matrix transitive closure of the given graph ")
+    #     for i in range(self.V):
+    #         for j in range(self.V):
+    #             print "%7d\t" % (reach[i][j]),
+    #         print ""
+    #
+    # # Prints transitive closure of graph[][] using Floyd Warshall algorithm
+    # def transitiveClosure(self, graph):
+    #     '''reach[][] will be the output matrix that will finally
+    #     have reachability values.
+    #     Initialize the solution matrix same as input graph matrix'''
+    #     reach = [i[:] for i in graph]
+    #     '''Add all vertices one by one to the set of intermediate
+    #     vertices.
+    #     ---> Before start of a iteration, we have reachability value
+    #     for all pairs of vertices such that the reachability values
+    #      consider only the vertices in set
+    #     {0, 1, 2, .. k-1} as intermediate vertices.
+    #     ----> After the end of an iteration, vertex no. k is
+    #     added to the set of intermediate vertices and the
+    #     set becomes {0, 1, 2, .. k}'''
+    #     for k in range(self.V):
+    #
+    #         # Pick all vertices as source one by one
+    #         for i in range(self.V):
+    #
+    #             # Pick all vertices as destination for the
+    #             # above picked source
+    #             for j in range(self.V):
+    #                 # If vertex k is on a path from i to j,
+    #                 # then make sure that the value of reach[i][j] is 1
+    #                 reach[i][j] = reach[i][j] or (reach[i][k] and reach[k][j])
+    #
+    #     self.printSolution(reach)
 
 class SortingAlgorithme:
     """
@@ -131,7 +169,7 @@ class SortingAlgorithme:
                 u = v
                 v = dist[v][1]
             path.reverse()
-            print(path)
+            # print(path)
             return path
 
 
@@ -198,21 +236,22 @@ algo = SortingAlgorithme()
 
 G = nx.DiGraph();
 
-array = algo.fileToArray("tp2-donnees/poset30-4a")
+array = algo.fileToArray("tp2-donnees/poset10-4a")
 G.add_edges_from(array)
 
-#print(G.number_of_nodes(), G.number_of_edges())
+print(G.number_of_nodes(), G.number_of_edges())
 
 transitiveGraph = algo.transitive_reduction(G)
 
+#longestChains = algo.calculateAllChains(G)
+#print(longestChains)
+print(algo.voraceApproximation(transitiveGraph))
 
-#print(algo.voraceApproximation(transitiveGraph))
-
-graph = Graph(G.number_of_nodes())
+#graph = Graph(G.number_of_nodes())
 #print(array)
 
-for i in range(len(array)):
-    graph.addEdge(array[i][0], array[i][1])
+#for i in range(len(array)):
+    #graph.addEdge(array[i][0], array[i][1])
 
 """
 graph.addEdge(1,0)
@@ -230,10 +269,10 @@ graph.addEdge(9, 7)
 """
 
 
-graph.topologicalSort()
+#graph.topologicalSort()
 
 
-print(graph.count)
+#print(graph.count)
 
 # IF ELSE to chose the right algorithm from the terminal
 '''
