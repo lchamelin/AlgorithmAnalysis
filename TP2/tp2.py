@@ -8,7 +8,6 @@ import networkx as nx
 # Python program to print topological sorting of a DAG
 from collections import defaultdict
 
-
 # Class to represent a graph
 class Graph:
     """
@@ -19,47 +18,60 @@ class Graph:
     def __init__(self, vertices):
         self.graph = defaultdict(list)  # dictionary containing adjacency List
         self.V = vertices  # No. of vertices
+        self.count = 0
+        self.visited = []
+        self.indegree = []
 
         #Initialising all indegree with 0
         for i in range(0, self.V):
-            self.indegree = 0
+            self.indegree.append(0)
+        #print(self.indegree)
 
-    # function to add an edge to graph
+    #function to add an edge to graph
     def addEdge(self, u, v):
         self.graph[u].append(v)
+        self.indegree[v] += 1
 
     # A recursive function used by topologicalSort
-    def topologicalSortUtil(self, v, visited, stack):
+    def topologicalSortUtil(self, stack, visited):
         #Know if we all found the topological sort
         flag = False
 
-        # Mark the current node as visited.
-        visited[v] = True
+        for i in range(self.V):
 
-        # Recur for all the vertices adjacent to this vertex
-        for i in self.graph[v]:
-            if visited[i] == False:
-                self.topologicalSortUtil(i, visited, stack)
+            if (self.indegree[i] == 0 and self.visited[i] == False):
+                for j in range(len(self.graph[i])):
+                    self.indegree[self.graph[i][j]] -= 1
 
-        # Push current vertex to stack which stores result
-        stack.insert(0, v)
+                stack.append(i)
+                self.visited[i] = True
+                self.topologicalSortUtil(stack, visited)
+
+                self.visited[i] = False
+                stack.pop()
+
+                for j in range(len(self.graph[i])):
+                    self.indegree[self.graph[i][j]] += 1
+
+                flag = True
+
+        if(flag == False):
+            self.count += 1
+            print(self.count)
+
 
     # The function to do Topological Sort. It uses recursive
     # topologicalSortUtil()
     def topologicalSort(self):
         # Mark all the vertices as not visited
-        visited = [False] * self.V
+        print(self.V)
+
+        for i in range(0, self.V):
+            self.visited.append(False)
         stack = []
+        #print(self.visited)
 
-        # Call the recursive helper function to store Topological
-        # Sort starting from all vertices one by one
-        for i in range(self.V):
-            if visited[i] == False:
-                self.topologicalSortUtil(i, visited, stack)
-
-        # Print contents of stack
-        print(stack)
-
+        self.topologicalSortUtil(stack, self.visited)
 
 class SortingAlgorithme:
     """
@@ -186,18 +198,23 @@ algo = SortingAlgorithme()
 
 G = nx.DiGraph();
 
-array = algo.fileToArray("tp2-donnees/poset10-4b")
+array = algo.fileToArray("tp2-donnees/poset30-4a")
 G.add_edges_from(array)
 
-print(G.number_of_nodes(), G.number_of_edges())
+#print(G.number_of_nodes(), G.number_of_edges())
 
 transitiveGraph = algo.transitive_reduction(G)
 
 
-print(algo.voraceApproximation(transitiveGraph))
+#print(algo.voraceApproximation(transitiveGraph))
 
-graph = Graph(10)
+graph = Graph(G.number_of_nodes())
+#print(array)
 
+for i in range(len(array)):
+    graph.addEdge(array[i][0], array[i][1])
+
+"""
 graph.addEdge(1,0)
 graph.addEdge(1, 4)
 graph.addEdge(1, 8)
@@ -210,8 +227,13 @@ graph.addEdge(7, 2)
 graph.addEdge(9, 3)
 graph.addEdge(9, 6)
 graph.addEdge(9, 7)
+"""
+
 
 graph.topologicalSort()
+
+
+print(graph.count)
 
 # IF ELSE to chose the right algorithm from the terminal
 '''
