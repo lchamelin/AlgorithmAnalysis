@@ -198,7 +198,7 @@ algo = SortingAlgorithme()
 
 G = nx.DiGraph();
 
-array = algo.fileToArray("tp2-donnees/poset30-4a")
+array = algo.fileToArray("tp2-donnees/poset10-4a")
 G.add_edges_from(array)
 
 #print(G.number_of_nodes(), G.number_of_edges())
@@ -206,13 +206,13 @@ G.add_edges_from(array)
 transitiveGraph = algo.transitive_reduction(G)
 
 
-#print(algo.voraceApproximation(transitiveGraph))
+print(algo.voraceApproximation(transitiveGraph))
 
-graph = Graph(G.number_of_nodes())
+#graph = Graph(G.number_of_nodes())
 #print(array)
 
-for i in range(len(array)):
-    graph.addEdge(array[i][0], array[i][1])
+#for i in range(len(array)):
+    #graph.addEdge(array[i][0], array[i][1])
 
 """
 graph.addEdge(1,0)
@@ -230,10 +230,10 @@ graph.addEdge(9, 7)
 """
 
 
-graph.topologicalSort()
+#graph.topologicalSort()
 
 
-print(graph.count)
+#print(graph.count)
 
 # IF ELSE to chose the right algorithm from the terminal
 '''
