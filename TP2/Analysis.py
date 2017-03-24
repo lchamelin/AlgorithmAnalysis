@@ -1,12 +1,10 @@
-import os
-import random
 import time
-import matplotlib.pyplot as plt
 import sys
 import tp2 as algo
+import tp2 as back
 import math
-import numpy as np
 import networkx as nx
+
 
 #Set the recursion limit
 sys.setrecursionlimit(100000)
@@ -24,37 +22,50 @@ versionDictionary = {0: "a", 1: "b", 2: "c", 3: "d", 4: "e", 5: "f", 6: "g", 7: 
 time_dictionary = {"10": 0, "14": 0, "18": 0, "22": 0, "26": 0, "30": 0}
 algoToDo = {0: "vorace", 1: "retourArriere", 2: "dynamique"}
 avgArr = []
+tempsmoy = 0
 
 '''
 All set of data in all files for all algorithme
 '''
-for n in range(0,2):
+for n in range(0,1):
     for s in range(0,6):
         for m in range(0,3):
+            print("tp2-donnees/poset" + str(nbNodeDictionary[s]) + "-" + str(graphWidthDictionary[m]))
             for i in range(0,10):
                 timeArray = []
                 avg = 0
                 # Get the data in the file
                 array = algo.fileToArray("tp2-donnees/poset" + str(nbNodeDictionary[s]) + "-" + str(graphWidthDictionary[m]) + str(versionDictionary[i]))
 
-                G = nx.DiGraph()
-                G.add_edges_from(array)
                 if(algoToDo[n] == "vorace"):
+                    G = nx.DiGraph()
+                    G.add_edges_from(array)
                     t0 = time.time()
                     #Print the number of nodfes and edges
                     #print(G.number_of_nodes(), G.number_of_edges())
                     t = algo.transitive_reduction(G)
                     t1 = time.time()
                     algoTime = t1 - t0
-                    print(str(nbNodeDictionary[s]) + "-" + str(graphWidthDictionary[m]) + str(versionDictionary[i]) + ": " + str(algo.voraceApproximation(G)))
-                    # print("Time: " + str(algoTime))
+                    tempsmoy += algoTime
+                    print(round(algo.voraceApproximation(G), 6))
+                    #print("Time: " + str(algoTime))
 
                 if(algoToDo[n] == "retourArriere"):
+                    graph = back.Graph(algo.nbNode)
 
-                    graph = Graph(G.number_of_nodes())
-                    # print(array)
-
+                    #print(array)
                     for i in range(len(array)):
                         graph.addEdge(array[i][0], array[i][1])
 
+                    t0 = time.time()
+                    graph.topologicalSort()
+                    t1 = time.time()
+                    #print("count: " + str(graph.count))
 
+                    algoTime = t1 - t0
+                    tempsmoy += algoTime
+                    print(graph.count)
+
+            tempsmoy = tempsmoy/10
+            print("Temps moyen: " + str(round(tempsmoy,6)))
+            tempsmoy = 0

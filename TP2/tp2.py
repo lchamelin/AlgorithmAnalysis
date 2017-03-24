@@ -10,10 +10,8 @@ from collections import defaultdict
 
 # Class to represent a graph
 class Graph:
-    """
-    References:
-    http: // www.geeksforgeeks.org / all - topological - sorts - of - a - directed - acyclic - graph /
-    """
+    #References:
+    #http: // www.geeksforgeeks.org / all - topological - sorts - of - a - directed - acyclic - graph /
 
     def __init__(self, vertices):
         self.graph = defaultdict(list)  # dictionary containing adjacency List
@@ -22,14 +20,17 @@ class Graph:
         self.visited = []
         self.indegree = []
 
+        self.nbNode = 0
+
         #Initialising all indegree with 0
-        for i in range(0, self.V):
+        for i in range(self.V):
             self.indegree.append(0)
-        #print(self.indegree)
 
     #function to add an edge to graph
     def addEdge(self, u, v):
         self.graph[u].append(v)
+        #print(v)
+        #print(self.indegree)
         self.indegree[v] += 1
 
     # A recursive function used by topologicalSort
@@ -38,7 +39,6 @@ class Graph:
         flag = False
 
         for i in range(self.V):
-
             if (self.indegree[i] == 0 and self.visited[i] == False):
                 for j in range(len(self.graph[i])):
                     self.indegree[self.graph[i][j]] -= 1
@@ -54,7 +54,6 @@ class Graph:
                     self.indegree[self.graph[i][j]] += 1
 
                 flag = True
-
         if(flag == False):
             self.count += 1
 
@@ -63,59 +62,17 @@ class Graph:
     # The function to do Topological Sort. It uses recursive
     # topologicalSortUtil()
     def topologicalSort(self):
-        # Mark all the vertices as not visited
-        print(self.V)
-
-        for i in range(0, self.V):
+        for i in range(self.V):
             self.visited.append(False)
         stack = []
-        #print(self.visited)
 
         self.topologicalSortUtil(stack, self.visited)
 
 
-    # # A utility function to print the solution
-    # def printSolution(self, reach):
-    #     print ("Following matrix transitive closure of the given graph ")
-    #     for i in range(self.V):
-    #         for j in range(self.V):
-    #             print "%7d\t" % (reach[i][j]),
-    #         print ""
-    #
-    # # Prints transitive closure of graph[][] using Floyd Warshall algorithm
-    # def transitiveClosure(self, graph):
-    #     '''reach[][] will be the output matrix that will finally
-    #     have reachability values.
-    #     Initialize the solution matrix same as input graph matrix'''
-    #     reach = [i[:] for i in graph]
-    #     '''Add all vertices one by one to the set of intermediate
-    #     vertices.
-    #     ---> Before start of a iteration, we have reachability value
-    #     for all pairs of vertices such that the reachability values
-    #      consider only the vertices in set
-    #     {0, 1, 2, .. k-1} as intermediate vertices.
-    #     ----> After the end of an iteration, vertex no. k is
-    #     added to the set of intermediate vertices and the
-    #     set becomes {0, 1, 2, .. k}'''
-    #     for k in range(self.V):
-    #
-    #         # Pick all vertices as source one by one
-    #         for i in range(self.V):
-    #
-    #             # Pick all vertices as destination for the
-    #             # above picked source
-    #             for j in range(self.V):
-    #                 # If vertex k is on a path from i to j,
-    #                 # then make sure that the value of reach[i][j] is 1
-    #                 reach[i][j] = reach[i][j] or (reach[i][k] and reach[k][j])
-    #
-    #     self.printSolution(reach)
-
 class SortingAlgorithme:
-    """
-    References:
-    https: // networkx.github.io / documentation / networkx - 1.10 / tutorial / tutorial.html
-    """
+    #References:
+    #https: // networkx.github.io / documentation / networkx - 1.10 / tutorial / tutorial.html
+
     def enumerate_dag(self, g):
       def enumerate_r(n, paths, visited, a_path = []):
         a_path += [n]
@@ -137,10 +94,8 @@ class SortingAlgorithme:
 
 
     def transitive_reduction(self, G):
-        """
-        References:
-        https://en.wikipedia.org/wiki/Transitive_reduction
-        """
+        #References:
+        #https://en.wikipedia.org/wiki/Transitive_reduction
         TR = nx.DiGraph()
         TR.add_nodes_from(G.nodes())
         for u in G:
@@ -169,7 +124,7 @@ class SortingAlgorithme:
                 u = v
                 v = dist[v][1]
             path.reverse()
-            # print(path)
+            #print(path)
             return path
 
 
@@ -189,21 +144,21 @@ class SortingAlgorithme:
         #Append the node that have no more edges
         for i in G.nodes():
             L.append([i])
-        print(L)
+        #print(L)
         return L
 
 
-    # Algorithme 1 (Vorace)
     def voraceApproximation(self, G):
         algo = SortingAlgorithme()
-        nbNode = G.number_of_nodes()
-        print(nbNode)
+        nbNode = self.nbNode
+        #print("Nb nodes: " + str(nbNode))
 
         longestChains = algo.calculateAllChains(G)
-        nbExtensionLineaire = len(longestChains)
+        nbChains = len(longestChains)
+        #print(nbChains)
 
         h = 0
-        for i in range (1, nbExtensionLineaire):
+        for i in range (0, nbChains):
             h += -(len(longestChains[i]) / nbNode) * (math.log(len(longestChains[i]) / nbNode, 2))
 
         expo = (0.5 * nbNode * h)
@@ -212,100 +167,92 @@ class SortingAlgorithme:
         return nbExtensionLineaireApprox
 
 
-    #Append to an array what we read from the file
+    # Append to an array what we read from the file
     def fileToArray(self, file):
         with open(file, "r") as f:
-            #Array to
             array = []
-            #To skip the first line
-            next(f)
+            # To get the num ber of nodes
+            self.nbNode = int(f.readline()[0: 2])
 
             for line in f:
                 int_list = [int(i) for i in line.split()]
                 array.append(int_list)
-                #print(int_list)
+                # print(int_list)
 
             return array
 
 
 ############################################################################
+#TESTING THE METHODS
 ############################################################################
-
-# instantiation dun algo de la class SortingAlgorithme
+'''
+#Instantiation of an objet to get all function for the vorace algorithme
 algo = SortingAlgorithme()
 
-G = nx.DiGraph();
-
-array = algo.fileToArray("tp2-donnees/poset10-4a")
-G.add_edges_from(array)
-
-print(G.number_of_nodes(), G.number_of_edges())
-
-transitiveGraph = algo.transitive_reduction(G)
-
-#longestChains = algo.calculateAllChains(G)
-#print(longestChains)
-print(algo.voraceApproximation(transitiveGraph))
-
-#graph = Graph(G.number_of_nodes())
+#Get all line of text file to an array
+array = algo.fileToArray("tp2-donnees/poset10-6a")
 #print(array)
 
-#for i in range(len(array)):
-    #graph.addEdge(array[i][0], array[i][1])
+#Create a graphe from the library we use: networkx
+G = nx.DiGraph()
+G.add_edges_from(array)
 
-"""
-graph.addEdge(1,0)
-graph.addEdge(1, 4)
-graph.addEdge(1, 8)
-graph.addEdge(2, 5)
-graph.addEdge(5, 8)
-graph.addEdge(6, 0)
-graph.addEdge(6, 2)
-graph.addEdge(6, 4)
-graph.addEdge(7, 2)
-graph.addEdge(9, 3)
-graph.addEdge(9, 6)
-graph.addEdge(9, 7)
-"""
+#Get the longest chain
+#longestChains = algo.calculateAllChains(G)
 
+#Apply the vorace approximation
+print(round(algo.voraceApproximation(G), 6))
+'''
+'''
+#Instantiation of an object to get all function of the backtracking algorithme
+graph = Graph(algo.nbNode)
 
-#graph.topologicalSort()
+#Append all edges to the graph
+for i in range(len(array)):
+    graph.addEdge(array[i][0], array[i][1])
 
+graph.topologicalSort()
 
-#print(graph.count)
+#Get the number of linear expression from the graphe
+print("count: " + str(graph.count))
+'''
 
-# IF ELSE to chose the right algorithm from the terminal
+############################################################################
+#IF ELSE to chose the right algorithm from the terminal
+############################################################################
 '''
 if(sys.argv[1] == "vorace"):
     array = algo.fileToArray(str(sys.argv[2]))
-    # Debuter le calcul de temps
+    #Start timer
     t0 = time.time()
     G.add_edges_from(theArray)
     t = algo.transitive_reduction(G)
     nbExtentionLineaire = algo.voraceApproximation(G)
-    # Prendre le temps que l'algo a prit pour sort
+    #Get the execution time of the algorithme
     t1 = time.time()
-
 elif (sys.argv[1] == "dynamique"):
     array = algo.fileToArray(str(sys.argv[2]))
-    # Debuter le calcul de temps
+    #Start timer
     t0 = time.time()
     array = algo.quickSortRandom(array)
-    # Prendre le temps que l'algo a prit pour sort
+    #Get the execution time of the algorithme
     t1 = time.time()
-
 elif (sys.argv[1] == "retourArriere"):
     array = algo.fileToArray(str(sys.argv[2]))
-    # Debuter le calcul de temps
+    #Start timer
     t0 = time.time()
-    array = algo.counting_sort(array, max(array))
-    # Prendre le temps que l'algo a prit pour sort
+    graph = Graph(algo.nbNode)
+
+    for i in range(len(array)):
+        graph.addEdge(array[i][0], array[i][1])
+
+    graph.topologicalSort()
+
+    print("count: " + str(graph.count))
+    #Get the execution time of the algorithme
     t1 = time.time()
-
-
 #Calculate time for the algorithm execution
 algoTime = t1-t0
-
 #IF ELSE to execute the 3 different algorithm
 #If P is entered, we print the number on linear extension to the terminal
 #If t is entered, we print the execution time to the terminal
@@ -316,7 +263,6 @@ if(len(sys.argv) >= 4):
     # Si 't' est entre
     elif((sys.argv[3] == "-t")):
         print(algoTime)
-
     if(len(sys.argv) >= 5):
         # Si 'p' est entre
         if(sys.argv[4] == "-p"):
@@ -324,5 +270,4 @@ if(len(sys.argv) >= 4):
         # Si 't' est entre
         elif((sys.argv[4] == "-t")):
             print(algoTime)
-
 '''
