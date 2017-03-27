@@ -25,4 +25,4 @@ esac
 shift
 done
 
-python3 ./Tp1.py $ALGO $EX_PATH $OPTIONS
+python ./tp2.py $ALGO $EX_PATH $OPTIONS

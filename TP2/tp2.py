@@ -3,7 +3,7 @@ import random
 import time
 import sys
 import math
-import numpy as np
+import numpy
 import networkx as nx
 # Python program to print topological sorting of a DAG
 from collections import defaultdict
@@ -66,6 +66,43 @@ class Graph:
         self.topologicalSortUtil(stack, self.visited)
 
 
+    # # A utility function to print the solution
+    # def printSolution(self, reach):
+    #     print ("Following matrix transitive closure of the given graph ")
+    #     for i in range(self.V):
+    #         for j in range(self.V):
+    #             print "%7d\t" % (reach[i][j]),
+    #         print ""
+    #
+    # # Prints transitive closure of graph[][] using Floyd Warshall algorithm
+    # def transitiveClosure(self, graph):
+    #     '''reach[][] will be the output matrix that will finally
+    #     have reachability values.
+    #     Initialize the solution matrix same as input graph matrix'''
+    #     reach = [i[:] for i in graph]
+    #     '''Add all vertices one by one to the set of intermediate
+    #     vertices.
+    #     ---> Before start of a iteration, we have reachability value
+    #     for all pairs of vertices such that the reachability values
+    #      consider only the vertices in set
+    #     {0, 1, 2, .. k-1} as intermediate vertices.
+    #     ----> After the end of an iteration, vertex no. k is
+    #     added to the set of intermediate vertices and the
+    #     set becomes {0, 1, 2, .. k}'''
+    #     for k in range(self.V):
+    #
+    #         # Pick all vertices as source one by one
+    #         for i in range(self.V):
+    #
+    #             # Pick all vertices as destination for the
+    #             # above picked source
+    #             for j in range(self.V):
+    #                 # If vertex k is on a path from i to j,
+    #                 # then make sure that the value of reach[i][j] is 1
+    #                 reach[i][j] = reach[i][j] or (reach[i][k] and reach[k][j])
+    #
+    #     self.printSolution(reach)
+
 class SortingAlgorithme:
     #References:
     #https: // networkx.github.io / documentation / networkx - 1.10 / tutorial / tutorial.html
@@ -80,7 +117,7 @@ class SortingAlgorithme:
                 enumerate_r(nn, paths, visited, list(a_path))
 
       paths, N = [], len(g)
-      visited = np.zeros((N), dtype='int32')
+      visited = numpy.zeros((N), dtype='int32')
 
       for root in range(N):
         if visited[root]: continue
@@ -181,72 +218,77 @@ class SortingAlgorithme:
 ############################################################################
 #TESTING THE METHODS
 ############################################################################
-'''
+
 #Instantiation of an objet to get all function for the vorace algorithme
-algo = SortingAlgorithme()
+
 
 #Get all line of text file to an array
-array = algo.fileToArray("tp2-donnees/poset10-6a")
+# array = algo.fileToArray("tp2-donnees/poset10-4a")
 #print(array)
 
 #Create a graphe from the library we use: networkx
-G = nx.DiGraph()
-G.add_edges_from(array)
+
+
 
 #Get the longest chain
 #longestChains = algo.calculateAllChains(G)
 
 #Apply the vorace approximation
-print(round(algo.voraceApproximation(G), 6))
-'''
-'''
-#Instantiation of an object to get all function of the backtracking algorithme
-graph = Graph(algo.nbNode)
+# graph.printSolution(graph.graph)
+# graph.transitiveClosure(graph)
+# print(round(algo.voraceApproximation(G), 6))
 
-#Append all edges to the graph
-for i in range(len(array)):
-    graph.addEdge(array[i][0], array[i][1])
-
-graph.topologicalSort()
-
-#Get the number of linear expression from the graphe
-print("count: " + str(graph.count))
-'''
+#
+# #Instantiation of an object to get all function of the backtracking algorithme
+# graph = Graph(algo.nbNode)
+#
+# #Append all edges to the graph
+# for i in range(len(array)):
+#     graph.addEdge(array[i][0], array[i][1])
+#
+# graph.topologicalSort()
+#
+# #Get the number of linear expression from the graphe
+# print("count: " + str(graph.count))
 
 ############################################################################
 #IF ELSE to chose the right algorithm from the terminal
 ############################################################################
-'''
+algo = SortingAlgorithme()
 if(sys.argv[1] == "vorace"):
-    array = algo.fileToArray(str(sys.argv[2]))
+    G = nx.DiGraph()
+    array = algo.fileToArray("tp2-donnees/poset" + str(sys.argv[2]))
+    G.add_edges_from(array)
     #Start timer
     t0 = time.time()
-    G.add_edges_from(theArray)
-    t = algo.transitive_reduction(G)
-    nbExtentionLineaire = algo.voraceApproximation(G)
-    #Get the execution time of the algorithme
-    t1 = time.time()
-elif (sys.argv[1] == "dynamique"):
-    array = algo.fileToArray(str(sys.argv[2]))
-    #Start timer
-    t0 = time.time()
-    array = algo.quickSortRandom(array)
+    nbExtentionLineaire = round(algo.voraceApproximation(G), 6)
     #Get the execution time of the algorithme
     t1 = time.time()
 elif (sys.argv[1] == "retourArriere"):
-    array = algo.fileToArray(str(sys.argv[2]))
+    array = algo.fileToArray("tp2-donnees/poset" + str(sys.argv[2]))
     #Start timer
     t0 = time.time()
     graph = Graph(algo.nbNode)
-
+    # Append all edges to the graph
     for i in range(len(array)):
         graph.addEdge(array[i][0], array[i][1])
 
     graph.topologicalSort()
-
-    print("count: " + str(graph.count))
+    # Get the number of linear expression from the graphe
+    nbExtentionLineaire = graph.count
     #Get the execution time of the algorithme
     t1 = time.time()
+
+elif (sys.argv[1] == "dynamique"):
+    array = algo.fileToArray("tp2-donnees/poset" + str(sys.argv[2]))
+    #Start timer
+    t0 = time.time()
+    print("Algorithm non fonctionnel presentement pour le fichier -> " + "tp2-donnees/poset" + str(sys.argv[2]))
+    nbExtentionLineaire = 0
+    #Get the execution time of the algorithme
+    t1 = time.time()
+
+
 #Calculate time for the algorithm execution
 algoTime = t1-t0
 #IF ELSE to execute the 3 different algorithm
@@ -255,15 +297,14 @@ algoTime = t1-t0
 if(len(sys.argv) >= 4):
     # Si 'p' est entre
     if(sys.argv[3] == "-p"):
-        print(nbExtentionLineaire)
+        print("Nombre d'extensions lineaires: " + str(nbExtentionLineaire))
     # Si 't' est entre
     elif((sys.argv[3] == "-t")):
-        print(algoTime)
+        print("Temps d'execution pour l'algo choisi: " + str(algoTime) + " secondes")
     if(len(sys.argv) >= 5):
         # Si 'p' est entre
         if(sys.argv[4] == "-p"):
-            print(nbExtentionLineaire)
+            print("Nombre d'extensions lineaires: " + str(nbExtentionLineaire))
         # Si 't' est entre
         elif((sys.argv[4] == "-t")):
-            print(algoTime)
-'''
+            print("Temps d'execution pour l'algo choisi: " + str(algoTime) + " secondes")
