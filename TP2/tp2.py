@@ -7,6 +7,7 @@ import numpy
 import networkx as nx
 # Python program to print topological sorting of a DAG
 from collections import defaultdict
+from decimal import Decimal
 
 # Class to represent a graph
 class Graph:
@@ -192,9 +193,9 @@ class SortingAlgorithme:
 
         h = 0
         for i in range (0, nbChains):
-            h += -(len(longestChains[i]) / nbNode) * (math.log(len(longestChains[i]) / nbNode, 2))
+            h += -Decimal((len(longestChains[i])) / Decimal(nbNode)) * Decimal(math.log(Decimal(len(longestChains[i])) / Decimal(nbNode), 2))
 
-        expo = (0.5 * nbNode * h)
+        expo = (Decimal(0.5) * Decimal(nbNode) * Decimal(h))
         nbExtensionLineaireApprox = math.pow(2, expo)
 
         return nbExtensionLineaireApprox

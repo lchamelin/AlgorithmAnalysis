@@ -27,11 +27,11 @@ tempsmoy = 0
 '''
 All set of data in all files for all algorithme
 '''
-for n in range(1,2):
-    for s in range(4,5):
+for n in range(0,1):
+    for s in range(0,1):
         for m in range(0,1):
             print("tp2-donnees/poset" + str(nbNodeDictionary[s]) + "-" + str(graphWidthDictionary[m]))
-            for i in range(4,5):
+            for i in range(0,10):
                 timeArray = []
                 avg = 0
                 # Get the data in the file
