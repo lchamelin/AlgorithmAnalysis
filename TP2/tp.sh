@@ -1,4 +1,6 @@
 #!/bin/bash
+pip install numpy
+pip install networkx
 
 OPTIONS=""
 while [[ $# -gt 0 ]]
