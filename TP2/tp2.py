@@ -12,14 +12,12 @@ from collections import defaultdict
 class Graph:
     #References:
     #http: // www.geeksforgeeks.org / all - topological - sorts - of - a - directed - acyclic - graph /
-
     def __init__(self, vertices):
         self.graph = defaultdict(list)  # dictionary containing adjacency List
         self.V = vertices  # No. of vertices
         self.count = 0
         self.visited = []
         self.indegree = []
-
         self.nbNode = 0
 
         #Initialising all indegree with 0
@@ -58,7 +56,6 @@ class Graph:
             self.count += 1
 
 
-
     # The function to do Topological Sort. It uses recursive
     # topologicalSortUtil()
     def topologicalSort(self):
@@ -72,7 +69,6 @@ class Graph:
 class SortingAlgorithme:
     #References:
     #https: // networkx.github.io / documentation / networkx - 1.10 / tutorial / tutorial.html
-
     def enumerate_dag(self, g):
       def enumerate_r(n, paths, visited, a_path = []):
         a_path += [n]
@@ -135,7 +131,7 @@ class SortingAlgorithme:
         c = []
         c = algo.dag_longest_path(G)
 
-        # Get nodes that have edges with other nodes
+        #Get nodes that have edges with other nodes
         while G.number_of_edges() != 0:
             G.remove_nodes_from(c)
             L.append(c)
