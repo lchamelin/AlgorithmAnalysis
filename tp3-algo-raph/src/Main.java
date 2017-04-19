@@ -76,10 +76,38 @@ public class Main {
         scan.close();
 
         while (true) {
-            //findMinPath(nbreTotalNode, wowSpotsIndexPosition, entreesIndexPosition, etapesIndexPosition, nbreMaximumEdgesAllow, typesList, costMatrix);
+            findMinPath(nbreTotalNode, wowSpotsIndexPosition, entreesIndexPosition, etapesIndexPosition, nbreMaximumEdgesAllow, typesList, costMatrix);
         }
     }
+    public static void findMinPath(int nbreTotalNode, ArrayList<Integer> wowSpotsIndexPosition, ArrayList<Integer> entreesIndexPosition, ArrayList<Integer> etapesIndexPosition, int[] nbreMaximumEdgesAllow, ArrayList<Integer> typesList, double[][] costMatrix) {
 
+        // Creation du graph
+        Graph graph = new Graph(nbreTotalNode);
+        // Cout trouve pour ce present path
+        double currentCostPath = 0.0;
+        // Couples trouve pour ce present path
+        ArrayList<Integer[]> currentCouplesFound = new ArrayList<Integer[]>();
+        // Nombres de edges permit restant pour chaque node
+        int[] nbreEdgesPermisRestants = nbreMaximumEdgesAllow.clone();
+        // Random number qui sera utiliser dans toutes les fonctions
+        int randomNumber = 0;
+        // Nombre de tour de boucle que devra faire le loop avant d'avoir lie chq node
+        int nbreTourDeLoop = typesList.size();
+        // Nodes restant a lier aux autres
+        ArrayList<Integer> nodeRestantALier = (ArrayList<Integer>) typesList.clone();
+        // couple A & B de test pour les case plus bas
+        Integer[] coupleTestA = new Integer[2];
+        Integer[] coupleTestB = new Integer[2];
+        // List test pour les cases plus bas pour eliminer les node fini de liaison
+        ArrayList<Integer> testList = new ArrayList<>();
+
+
+        
+
+
+
+
+        }
 
 
 
