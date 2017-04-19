@@ -9,7 +9,7 @@ public class AlgoFindPaths {
     static Random random = new Random();
     static double bestTotalCostPath = Double.POSITIVE_INFINITY;
 
-    public static void findMinPath(int nbreTotalNode, ArrayList<Integer> wowSpotsIndexPosition, ArrayList<Integer> entreesIndexPosition, ArrayList<Integer> etapesIndexPosition, int[] nbreMaximumEdgesAllow, int[] typesList, double[][] costMatrix) {
+    public static void findMinPath(int nbreTotalNode, ArrayList<Integer> wowSpotsIndexPosition, ArrayList<Integer> entreesIndexPosition, ArrayList<Integer> etapesIndexPosition, int[] nbreMaximumEdgesAllow, int[] typesList, double[][] costMatrix, ArrayList<Integer> allNodes) {
 
         // Creation du graph
         Graph graph = new Graph(nbreTotalNode);
@@ -24,10 +24,8 @@ public class AlgoFindPaths {
         // Nombre de tour de boucle que devra faire le loop avant d'avoir lie chq node
         int nbreTourDeLoop = typesList.length;
         // Nodes restant a lier aux autres
-        ArrayList<Integer> nodeRestantALier = new ArrayList();
-        for(int i = 0; i < typesList.length; i++) {
-            nodeRestantALier.add(i);
-        }
+        ArrayList<Integer> nodeRestantALier = new ArrayList(allNodes);
+
         // couple A & B de test pour les case plus bas
         Integer[] coupleTest = new Integer[2];
         // List test pour les cases plus bas pour eliminer les node fini de liaison
@@ -261,12 +259,28 @@ public class AlgoFindPaths {
                 break;
             }
         }
-        boolean isAllNodeInMinPath = false;
-
+        boolean isAllNodeInMinPath = isAllNodeInMinPathFct(allNodes, currentCouplesFound);
+//        ArrayList<Integer> allNodesForVerif = new ArrayList<>();
+//        ArrayList<Integer> allNodeInParc = new ArrayList(allNodes);
+//
+//        for(Integer[] couple : currentCouplesFound) {
+//            if(!allNodesForVerif.contains(couple[0])) {
+//                allNodesForVerif.add(couple[0]);
+//            }
+//            if(!allNodesForVerif.contains(couple[1])) {
+//                allNodesForVerif.add(couple[1]);
+//            }
+//        }
+//        for(Integer node : allNodeInParc) {
+//            if(!allNodesForVerif.contains(node)) {
+//                isAllNodeInMinPath = false;
+//                break;
+//            }
+//            isAllNodeInMinPath = true;
+//        }
 
         //Si notre resultat est valide et meilleur on le garde
-//        System.out.println("On check si cest plus petit");
-        if(currentCostPath < bestTotalCostPath && isEtapesReachEntree && isWowSpotReachEntree && isEtapesEdgesMinAtteint){
+        if(currentCostPath < bestTotalCostPath && isEtapesReachEntree && isWowSpotReachEntree && isEtapesEdgesMinAtteint && isAllNodeInMinPath){
             bestTotalCostPath = currentCostPath;
             System.out.println("-----------------------------------------------");
             for(int i = 0; i < currentCouplesFound.size(); i++){
@@ -282,17 +296,28 @@ public class AlgoFindPaths {
 //                System.out.println("Temps de Calcul (Nanosecondes) : " + tempsCalcul);
 //            }
         }
-
         return;
+    }
 
-        // TODO: Dont forget to close the scan ...
-
-
-
-
-
-
-
-
+    public static boolean isAllNodeInMinPathFct(ArrayList<Integer> allNodes, ArrayList<Integer[]> currentCouplesFound) {
+        boolean isAllNodeInMinPath = false;
+        ArrayList<Integer> allNodesForVerif = new ArrayList<>();
+        ArrayList<Integer> allNodeInParc = new ArrayList(allNodes);
+        for(Integer[] couple : currentCouplesFound) {
+            if(!allNodesForVerif.contains(couple[0])) {
+                allNodesForVerif.add(couple[0]);
+            }
+            if(!allNodesForVerif.contains(couple[1])) {
+                allNodesForVerif.add(couple[1]);
+            }
+        }
+        for(Integer node : allNodeInParc) {
+            if(!allNodesForVerif.contains(node)) {
+                isAllNodeInMinPath = false;
+                break;
+            }
+            isAllNodeInMinPath = true;
+        }
+        return isAllNodeInMinPath;
     }
 }

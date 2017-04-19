@@ -27,6 +27,7 @@ public class Main {
         ArrayList<Integer> entreesIndexPosition = new ArrayList<Integer>();
         ArrayList<Integer> etapesIndexPosition = new ArrayList<Integer>();
         int[] typesList = new int[nbreTotalNode];
+        ArrayList<Integer> allNodes = new ArrayList<Integer>();
 
         int indexPositionType = 0;
         // Remplir les array de positions selon la list data
@@ -34,6 +35,7 @@ public class Main {
             if (scan.hasNext()) {
                 indexPositionType = Integer.parseInt(scan.next());
                 typesList[index] = (indexPositionType);
+                allNodes.add(index);
                 switch (indexPositionType) {
                     case 1:
                         wowSpotsIndexPosition.add(index);
@@ -76,7 +78,7 @@ public class Main {
 
         // Rouler l'algo qui trouve en continue le meilleur chemin
         while (true) {
-            AlgoFindPaths.findMinPath(nbreTotalNode, wowSpotsIndexPosition, entreesIndexPosition, etapesIndexPosition, nbreMaximumEdgesAllow, typesList, costMatrix);
+            AlgoFindPaths.findMinPath(nbreTotalNode, wowSpotsIndexPosition, entreesIndexPosition, etapesIndexPosition, nbreMaximumEdgesAllow, typesList, costMatrix, allNodes);
         }
     }
 }
