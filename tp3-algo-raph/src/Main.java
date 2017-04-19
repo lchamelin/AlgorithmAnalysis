@@ -86,7 +86,7 @@ public class Main {
         // Cout trouve pour ce present path
         double currentCostPath = 0.0;
         // Couples trouve pour ce present path
-        ArrayList<Integer[]> currentCouplesFound = new ArrayList<Integer[]>();
+        ArrayList<Integer[]> currentCouplesFound = new ArrayList<>();
         // Nombres de edges permit restant pour chaque node
         int[] nbreEdgesPermisRestants = Arrays.copyOf(nbreMaximumEdgesAllow, nbreMaximumEdgesAllow.length);
         // Random number qui sera utiliser dans toutes les fonctions
@@ -116,7 +116,7 @@ public class Main {
                 case 1:
                     // Si le node ne peut deja plus faire de liens
                     if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
-                        nodeRestantALier.remove(randomNodeIndex);
+                        nodeRestantALier.remove(Integer.valueOf(randomNodeIndex));
                         nbreTourDeLoop--;
                         continue loop;
                     }
@@ -126,7 +126,7 @@ public class Main {
                     testList.clear();
                     while(nbreEdgesPermisRestants[randomNumber] <= 0) {
                         if(testList.size() == nbreTotalNode) {
-                            nodeRestantALier.remove(randomNodeIndex);
+                            nodeRestantALier.remove(Integer.valueOf(randomNodeIndex));
                             nbreTourDeLoop--;
                             continue loop;
                         }
@@ -156,12 +156,14 @@ public class Main {
                         graph.addEdge(randomNodeIndex, randomNumber);
                         graph.addEdge(randomNumber, randomNodeIndex);
 
-                        // Eliminer les node qui ne peuvent plus faire de liens
-                        if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
-                            nodeRestantALier.remove(randomNodeIndex);
-                            nbreTourDeLoop--;
-                            //continue loop;
-                        }
+
+
+                    }
+                    // Eliminer les node qui ne peuvent plus faire de liens
+                    if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
+                        nodeRestantALier.remove(Integer.valueOf(randomNodeIndex));
+                        nbreTourDeLoop--;
+                        continue loop;
                     }
                     // Fin de ce case
                     break;
@@ -170,7 +172,7 @@ public class Main {
                 case 2:
                     // Si le node ne peut deja plus faire de liens
                     if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
-                        nodeRestantALier.remove(randomNodeIndex);
+                        nodeRestantALier.remove(Integer.valueOf(randomNodeIndex));
                         nbreTourDeLoop--;
                         continue loop;
                     }
@@ -183,7 +185,7 @@ public class Main {
                     testList.clear();
                     while(nbreEdgesPermisRestants[randomNumber] <= 0 || Utils.isCoupleAlreadyThere(currentCouplesFound, coupleTest)) {
                         if(testList.size() == nbreTotalNode) {
-                            nodeRestantALier.remove(randomNodeIndex);
+                            nodeRestantALier.remove(Integer.valueOf(randomNodeIndex));
                             nbreTourDeLoop--;
                             continue loop;
                         }
@@ -217,19 +219,20 @@ public class Main {
                         graph.addEdge(randomNodeIndex, randomNumber);
                         graph.addEdge(randomNumber, randomNodeIndex);
 
-                        // Eliminer les node qui ne peuvent plus faire de liens
-                        if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
-                            nodeRestantALier.remove(randomNodeIndex);
-                            nbreTourDeLoop--;
-                            //continue loop;
-                        }
+
+                    }
+                    // Eliminer les node qui ne peuvent plus faire de liens
+                    if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
+                        nodeRestantALier.remove(Integer.valueOf(randomNodeIndex));
+                        nbreTourDeLoop--;
+                        continue loop;
                     }
                     // Fin de ce case
                     break;
                 case 3:
                     // Si le node ne peut deja plus faire de liens
                     if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
-                        nodeRestantALier.remove(randomNodeIndex);
+                        nodeRestantALier.remove(Integer.valueOf(randomNodeIndex));
                         nbreTourDeLoop--;
                         continue loop;
                     }
@@ -242,7 +245,7 @@ public class Main {
                     testList.clear();
                     while(nbreEdgesPermisRestants[randomNumber] <= 0 || Utils.isCoupleAlreadyThere(currentCouplesFound, coupleTest)) {
                         if(testList.size() == nbreTotalNode) {
-                            nodeRestantALier.remove(randomNodeIndex);
+                            nodeRestantALier.remove(Integer.valueOf(randomNodeIndex));
                             nbreTourDeLoop--;
                             continue loop;
                         }
@@ -276,12 +279,13 @@ public class Main {
                         graph.addEdge(randomNodeIndex, randomNumber);
                         graph.addEdge(randomNumber, randomNodeIndex);
 
-                        // Eliminer les node qui ne peuvent plus faire de liens
-                        if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
-                            nodeRestantALier.remove(randomNodeIndex);
-                            nbreTourDeLoop--;
-                            //continue loop;
-                        }
+
+                    }
+                    // Eliminer les node qui ne peuvent plus faire de liens
+                    if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
+                        nodeRestantALier.remove(Integer.valueOf(randomNodeIndex));
+                        nbreTourDeLoop--;
+                        continue loop;
                     }
                     // Fin de ce case
                     break;
