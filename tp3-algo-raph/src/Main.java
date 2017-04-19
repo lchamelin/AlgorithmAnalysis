@@ -102,7 +102,190 @@ public class Main {
         ArrayList<Integer> testList = new ArrayList<>();
 
 
-        
+        // Loop lie tous les nodes ensemble... il ne sortira pas du loop tant qu'il reste des nombres
+        loop: while(nbreTourDeLoop > 0) {
+            int randomNodeIndex = random.nextInt(nbreTourDeLoop);
+
+            switch(nodeRestantALier.get(randomNodeIndex)) {
+                // Case ou c'est les wowSpots
+                case 1:
+                    // Si le node ne peut deja plus faire de liens
+                    if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
+                        nodeRestantALier.remove(randomNodeIndex);
+                        nbreTourDeLoop--;
+                        continue loop;
+                    }
+
+                    // gerer le cas ou les liens permit sont neg
+                    randomNumber = random.nextInt(nbreTotalNode);
+                    testList.clear();
+                    while(nbreEdgesPermisRestants[randomNumber] <= 0) {
+                        if(testList.size() == nbreTotalNode) {
+                            nodeRestantALier.remove(randomNodeIndex);
+                            nbreTourDeLoop--;
+                            continue loop;
+                        }
+                        else {
+                            randomNumber = random.nextInt(nbreTotalNode);
+                            if(!testList.contains(randomNumber)) {
+                                testList.add(randomNumber);
+                            }
+                        }
+                    }
+
+                    // verifier que le currentcost nest pas plus que le meilleure total trouve
+                    if(currentCostPath + costMatrix[randomNodeIndex][randomNumber] > bestTotalCostPath) {
+                        // si oui on abandonne la creation de liens
+                        return;
+                    }
+                    else {
+                        currentCostPath += costMatrix[randomNodeIndex][randomNumber];
+                        // Reduire nbre edges permit pour le couple trouve
+                        nbreEdgesPermisRestants[randomNodeIndex] -= 1;
+                        nbreEdgesPermisRestants[randomNumber] -= 1;
+                        // ajouter ce couple aux couples trouves
+                        Integer[] coupleTrouve = {randomNodeIndex, randomNumber};
+                        currentCouplesFound.add(coupleTrouve);
+
+                        // Ajouter ce couple au graph
+                        graph.addEdge(randomNodeIndex, randomNumber);
+                        graph.addEdge(randomNumber, randomNodeIndex);
+                    }
+
+                    // Eliminer les node qui ne peuvent plus faire de liens
+                    if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
+                        nodeRestantALier.remove(randomNodeIndex);
+                        nbreTourDeLoop--;
+                    }
+                    // Fin de ce case
+                    break;
+
+                // Case ou c'est les entrees
+                case 2:
+                    // Si le node ne peut deja plus faire de liens
+                    if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
+                        nodeRestantALier.remove(randomNodeIndex);
+                        nbreTourDeLoop--;
+                        continue loop;
+                    }
+
+                    randomNumber = random.nextInt(nbreTotalNode);
+                    coupleTestA[0] = randomNodeIndex;
+                    coupleTestA[1] = randomNumber;
+
+                    coupleTestB[0] = randomNumber;
+                    coupleTestB[1] = randomNodeIndex;
+
+                    testList.clear();
+                    while(nbreEdgesPermisRestants[randomNumber] <= 0 || Utils.isCoupleAlreadyThere(currentCouplesFound, coupleTestA) || Utils.isCoupleAlreadyThere(currentCouplesFound, coupleTestB)) {
+                        if(testList.size() == nbreTotalNode) {
+                            nodeRestantALier.remove(randomNodeIndex);
+                            nbreTourDeLoop--;
+                            continue loop;
+                        }
+                        else {
+                            randomNumber = random.nextInt(nbreTotalNode);
+                            if(!testList.contains(randomNumber)) {
+                                testList.add(randomNumber);
+                            }
+                            // Reajuster en fonction du new random
+                            coupleTestA[0] = randomNodeIndex;
+                            coupleTestA[1] = randomNumber;
+
+                            coupleTestB[0] = randomNumber;
+                            coupleTestB[1] = randomNodeIndex;
+                        }
+                    }
+                    // verifier que le currentcost nest pas plus que le meilleure total trouve
+                    if(currentCostPath + costMatrix[randomNodeIndex][randomNumber] > bestTotalCostPath) {
+                        // si oui on abandonne la creation de liens
+                        return;
+                    }
+                    else {
+                        currentCostPath += costMatrix[randomNodeIndex][randomNumber];
+                        // Reduire nbre edges permit pour le couple trouve
+                        nbreEdgesPermisRestants[randomNodeIndex] -= 1;
+                        nbreEdgesPermisRestants[randomNumber] -= 1;
+                        // ajouter ce couple aux couples trouves
+                        Integer[] coupleTrouve = {randomNodeIndex, randomNumber};
+                        currentCouplesFound.add(coupleTrouve);
+
+                        // Ajouter ce couple au graph
+                        graph.addEdge(randomNodeIndex, randomNumber);
+                        graph.addEdge(randomNumber, randomNodeIndex);
+                    }
+
+                    // Eliminer les node qui ne peuvent plus faire de liens
+                    if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
+                        nodeRestantALier.remove(randomNodeIndex);
+                        nbreTourDeLoop--;
+                    }
+                    // Fin de ce case
+                    break;
+                case 3:
+                    // Si le node ne peut deja plus faire de liens
+                    if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
+                        nodeRestantALier.remove(randomNodeIndex);
+                        nbreTourDeLoop--;
+                        continue loop;
+                    }
+
+                    randomNumber = random.nextInt(nbreTotalNode);
+                    coupleTestA[0] = randomNodeIndex;
+                    coupleTestA[1] = randomNumber;
+
+                    coupleTestB[0] = randomNumber;
+                    coupleTestB[1] = randomNodeIndex;
+
+                    testList.clear();
+                    while(nbreEdgesPermisRestants[randomNumber] <= 0 || Utils.isCoupleAlreadyThere(currentCouplesFound, coupleTestA) || Utils.isCoupleAlreadyThere(currentCouplesFound, coupleTestB)) {
+                        if(testList.size() == nbreTotalNode) {
+                            nodeRestantALier.remove(randomNodeIndex);
+                            nbreTourDeLoop--;
+                            continue loop;
+                        }
+                        else {
+                            randomNumber = random.nextInt(nbreTotalNode);
+                            if(!testList.contains(randomNumber)) {
+                                testList.add(randomNumber);
+                            }
+                            // Reajuster en fonction du new random
+                            coupleTestA[0] = randomNodeIndex;
+                            coupleTestA[1] = randomNumber;
+
+                            coupleTestB[0] = randomNumber;
+                            coupleTestB[1] = randomNodeIndex;
+                        }
+                    }
+                    // verifier que le currentcost nest pas plus que le meilleure total trouve
+                    if(currentCostPath + costMatrix[randomNodeIndex][randomNumber] > bestTotalCostPath) {
+                        // si oui on abandonne la creation de liens
+                        return;
+                    }
+                    else {
+                        currentCostPath += costMatrix[randomNodeIndex][randomNumber];
+                        // Reduire nbre edges permit pour le couple trouve
+                        nbreEdgesPermisRestants[randomNodeIndex] -= 1;
+                        nbreEdgesPermisRestants[randomNumber] -= 1;
+                        // ajouter ce couple aux couples trouves
+                        Integer[] coupleTrouve = {randomNodeIndex, randomNumber};
+                        currentCouplesFound.add(coupleTrouve);
+
+                        // Ajouter ce couple au graph
+                        graph.addEdge(randomNodeIndex, randomNumber);
+                        graph.addEdge(randomNumber, randomNodeIndex);
+                    }
+
+                    // Eliminer les node qui ne peuvent plus faire de liens
+                    if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
+                        nodeRestantALier.remove(randomNodeIndex);
+                        nbreTourDeLoop--;
+                    }
+                    // Fin de ce case
+                    break;
+                default:
+                    break;
+            }
 
 
 
