@@ -10,7 +10,6 @@ public class AlgoFindPaths {
     static double bestTotalCostPath = Double.POSITIVE_INFINITY;
 
     public static void findMinPath(int nbreTotalNode, ArrayList<Integer> wowSpotsIndexPosition, ArrayList<Integer> entreesIndexPosition, ArrayList<Integer> etapesIndexPosition, int[] nbreMaximumEdgesAllow, int[] typesList, double[][] costMatrix, ArrayList<Integer> allNodes) {
-
         // Creation du graph
         Graph graph = new Graph(nbreTotalNode);
         // Cout trouve pour ce present path
@@ -221,73 +220,23 @@ public class AlgoFindPaths {
         }
 
         // Make sure toutes les etapes ont au moins 2 edges reliees a eux
-        boolean isEtapesEdgesMinAtteint = false;
-        for(Integer etape : etapesIndexPosition ) {
-            isEtapesEdgesMinAtteint = false;
-            if(nbreMaximumEdgesAllow[etape] - nbreEdgesPermisRestants[etape] >= 2) {
-                isEtapesEdgesMinAtteint = true;
-            }
-            else if(!isEtapesEdgesMinAtteint){
-                break;
-            }
-        }
+        boolean isEtapesEdgesMinAtteint = isEtapesEdgesMinAtteintFct(etapesIndexPosition, nbreMaximumEdgesAllow, nbreEdgesPermisRestants);
 
         // Verifier que chaque etape est ratachee a une entree
-        boolean isEtapesReachEntree = false;
-        for(Integer etape : etapesIndexPosition ) {
-            for(Integer entree : entreesIndexPosition) {
-                if(graph.isReachable(entree, etape)) {
-                    isEtapesReachEntree = true;
-                    break;
-                }
-            }
-            if(!isEtapesReachEntree) {
-                break;
-            }
-        }
+        boolean isEtapesReachEntree = isEtapesReachEntreeFct(etapesIndexPosition, entreesIndexPosition, graph);
+
 
         // Verifier que chaque etape est ratachee a une entree
-        boolean isWowSpotReachEntree = false;
-        for(Integer wowSpot : wowSpotsIndexPosition ) {
-            for(Integer entree : entreesIndexPosition) {
-                if(graph.isReachable(entree, wowSpot)) {
-                    isWowSpotReachEntree = true;
-                    break;
-                }
-            }
-            if(!isWowSpotReachEntree) {
-                break;
-            }
-        }
+        boolean isWowSpotReachEntree =  isWowSpotReachEntreeFct(wowSpotsIndexPosition, entreesIndexPosition, graph);
+
+        // Verifier que chaque node est present dans le current path
         boolean isAllNodeInMinPath = isAllNodeInMinPathFct(allNodes, currentCouplesFound);
-//        ArrayList<Integer> allNodesForVerif = new ArrayList<>();
-//        ArrayList<Integer> allNodeInParc = new ArrayList(allNodes);
-//
-//        for(Integer[] couple : currentCouplesFound) {
-//            if(!allNodesForVerif.contains(couple[0])) {
-//                allNodesForVerif.add(couple[0]);
-//            }
-//            if(!allNodesForVerif.contains(couple[1])) {
-//                allNodesForVerif.add(couple[1]);
-//            }
-//        }
-//        for(Integer node : allNodeInParc) {
-//            if(!allNodesForVerif.contains(node)) {
-//                isAllNodeInMinPath = false;
-//                break;
-//            }
-//            isAllNodeInMinPath = true;
-//        }
 
         //Si notre resultat est valide et meilleur on le garde
         if(currentCostPath < bestTotalCostPath && isEtapesReachEntree && isWowSpotReachEntree && isEtapesEdgesMinAtteint && isAllNodeInMinPath){
             bestTotalCostPath = currentCostPath;
-            System.out.println("-----------------------------------------------");
-            for(int i = 0; i < currentCouplesFound.size(); i++){
-                System.out.println(currentCouplesFound.get(i)[0] + " " + currentCouplesFound.get(i)[1]);
-            }
-            System.out.println("Fin");
-            System.out.println("Meilleur Cout trouve: " + bestTotalCostPath);
+            // Print le meilleur path trouve
+            printPath(currentCouplesFound);
 
 //            final long tempsCalcul = System.nanoTime() - startTime;
 
@@ -299,7 +248,7 @@ public class AlgoFindPaths {
         return;
     }
 
-    public static boolean isAllNodeInMinPathFct(ArrayList<Integer> allNodes, ArrayList<Integer[]> currentCouplesFound) {
+    static boolean isAllNodeInMinPathFct(ArrayList<Integer> allNodes, ArrayList<Integer[]> currentCouplesFound) {
         boolean isAllNodeInMinPath = false;
         ArrayList<Integer> allNodesForVerif = new ArrayList<>();
         ArrayList<Integer> allNodeInParc = new ArrayList(allNodes);
@@ -319,5 +268,59 @@ public class AlgoFindPaths {
             isAllNodeInMinPath = true;
         }
         return isAllNodeInMinPath;
+    }
+
+    static boolean isEtapesEdgesMinAtteintFct(ArrayList<Integer> etapesIndexPosition, int[] nbreMaximumEdgesAllow, int[] nbreEdgesPermisRestants) {
+        boolean isEtapesEdgesMinAtteint = false;
+        for(Integer etape : etapesIndexPosition ) {
+            if(nbreMaximumEdgesAllow[etape] - nbreEdgesPermisRestants[etape] < 2) {
+                isEtapesEdgesMinAtteint = false;
+                break;
+            }
+            isEtapesEdgesMinAtteint = true;
+        }
+        return isEtapesEdgesMinAtteint;
+    }
+
+    static boolean isEtapesReachEntreeFct(ArrayList<Integer> etapesIndexPosition, ArrayList<Integer> entreesIndexPosition, Graph graph) {
+        boolean isEtapesReachEntree = false;
+        for(Integer etape : etapesIndexPosition ) {
+            for (Integer entree : entreesIndexPosition) {
+                if (graph.isReachable(entree, etape)) {
+                    isEtapesReachEntree = true;
+                    break;
+                }
+            }
+            if(!isEtapesReachEntree) {
+                break;
+            }
+        }
+        return isEtapesReachEntree;
+    }
+
+    static boolean isWowSpotReachEntreeFct(ArrayList<Integer> wowSpotsIndexPosition, ArrayList<Integer> entreesIndexPosition, Graph graph) {
+        boolean isWowSpotReachEntree = false;
+        for(Integer wowSpot : wowSpotsIndexPosition ) {
+            for (Integer entree : entreesIndexPosition) {
+                if (graph.isReachable(entree, wowSpot)) {
+                    isWowSpotReachEntree = true;
+                    break;
+                }
+            }
+            if(!isWowSpotReachEntree) {
+                break;
+            }
+        }
+        return isWowSpotReachEntree;
+    }
+
+
+    static void printPath(ArrayList<Integer[]> currentCouplesFound) {
+        System.out.println("-----------------------------------------------");
+        for(int i = 0; i < currentCouplesFound.size(); i++){
+            System.out.println(currentCouplesFound.get(i)[0] + " " + currentCouplesFound.get(i)[1]);
+        }
+        System.out.println("Fin");
+        System.out.println("Meilleur Cout trouve: " + bestTotalCostPath);
     }
 }
