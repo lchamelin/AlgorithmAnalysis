@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="tp3-algo-raph:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/tp3_algo_raph_jar</output-path>
+    <root id="archive" name="tp3-algo-raph.jar">
+      <element id="module-output" name="tp3-algo-raph" />
+    </root>
+  </artifact>
+</component>

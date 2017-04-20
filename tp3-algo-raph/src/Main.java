@@ -12,10 +12,31 @@ import java.util.*;
 import java.util.LinkedList;
 
 public class Main {
+    public static boolean isPrintExecTimeReq = false;
+    public static boolean isPrintMinPathReq = true;
+    public static long startTimeProg = 0;
 
     public static void main(String[] args) throws FileNotFoundException {
+
+        // Analyser les args pour savoir si on print le temps ou la solution
+        if(args[1] == "-p" || args[1] == "--print") {
+            isPrintMinPathReq = true;
+            if(args[2] == "-t" || args[2] == "--time") {
+                isPrintExecTimeReq = true;
+                startTimeProg = System.nanoTime();
+            }
+        }
+        else if(args[1] == "-t" || args[1] == "--time") {
+            isPrintExecTimeReq = true;
+            startTimeProg = System.nanoTime();
+            if(args[2] == "-p" || args[2] == "--print") {
+                isPrintMinPathReq = true;
+            }
+        }
+
         int nbreTotalNode = 0;
-        Scanner scan = new Scanner((new File("data/Parc1-10Zones.txt")));
+        Scanner scan = new Scanner((new File(args[0])));
+//        Scanner scan = new Scanner(new File("data/Parc1-40Zones.txt"));
 
         // Get le nombre de points sur la map
         if (scan.hasNext()) {

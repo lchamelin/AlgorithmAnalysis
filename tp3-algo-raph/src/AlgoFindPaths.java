@@ -9,6 +9,12 @@ public class AlgoFindPaths {
     static Random random = new Random();
     static double bestTotalCostPath = Double.POSITIVE_INFINITY;
 
+    // Algo inspire et creer sur la base de ces algos trouve online
+    // Nous pouvons y trouver un melange dun algo aleatoire avec un algo MST)
+    // http://www.geeksforgeeks.org/greedy-algorithms-set-5-prims-minimum-spanning-tree-mst-2/
+    // https://www.cs.cmu.edu/~avrim/Randalgs97/lect0122
+    // http://www.vogella.com/tutorials/JavaAlgorithmsDijkstra/article.html
+
     public static void findMinPath(int nbreTotalNode, ArrayList<Integer> wowSpotsIndexPosition, ArrayList<Integer> entreesIndexPosition, ArrayList<Integer> etapesIndexPosition, int[] nbreMaximumEdgesAllow, int[] typesList, double[][] costMatrix, ArrayList<Integer> allNodes) {
         // Creation du graph
         Graph graph = new Graph(nbreTotalNode);
@@ -78,8 +84,7 @@ public class AlgoFindPaths {
                         currentCouplesFound.add(coupleTrouve);
 
                         // Ajouter ce couple au graph
-                        graph.addEdge(randomNodeIndex, randomNumber);
-                        graph.addEdge(randomNumber, randomNodeIndex);
+                        addEdgeToOurGraph(graph, randomNodeIndex, randomNumber);
 
 
 
@@ -116,14 +121,13 @@ public class AlgoFindPaths {
                         }
                         else {
                             randomNumber = random.nextInt(nbreTotalNode);
-                            if(!testList.contains(randomNumber)) {
-                                testList.add(randomNumber);
-                            }
                             // Reajuster en fonction du new random
                             coupleTest[0] = randomNodeIndex;
                             coupleTest[1] = randomNumber;
 
-
+                            if(!testList.contains(randomNumber)) {
+                                testList.add(randomNumber);
+                            }
                         }
                     }
                     // verifier que le currentcost nest pas plus que le meilleure total trouve
@@ -141,10 +145,7 @@ public class AlgoFindPaths {
                         currentCouplesFound.add(coupleTrouve);
 
                         // Ajouter ce couple au graph
-                        graph.addEdge(randomNodeIndex, randomNumber);
-                        graph.addEdge(randomNumber, randomNodeIndex);
-
-
+                        addEdgeToOurGraph(graph, randomNodeIndex, randomNumber);
                     }
                     // Eliminer les node qui ne peuvent plus faire de liens
                     if(nbreEdgesPermisRestants[randomNodeIndex] == 0) {
@@ -169,6 +170,7 @@ public class AlgoFindPaths {
                     // Clear la list test
                     testList.clear();
                     while(nbreEdgesPermisRestants[randomNumber] <= 0 || Utils.isCoupleAlreadyThere(currentCouplesFound, coupleTest)) {
+                        // Remove le node des node a lier
                         if(testList.size() == nbreTotalNode) {
                             nodeRestantALier.remove(Integer.valueOf(randomNodeIndex));
                             nbreTourDeLoop--;
@@ -176,14 +178,13 @@ public class AlgoFindPaths {
                         }
                         else {
                             randomNumber = random.nextInt(nbreTotalNode);
-                            if(!testList.contains(randomNumber)) {
-                                testList.add(randomNumber);
-                            }
                             // Reajuster en fonction du new random
                             coupleTest[0] = randomNodeIndex;
                             coupleTest[1] = randomNumber;
 
-
+                            if(!testList.contains(randomNumber)) {
+                                testList.add(randomNumber);
+                            }
                         }
                     }
                     // verifier que le currentcost nest pas plus que le meilleure total trouve
@@ -201,8 +202,8 @@ public class AlgoFindPaths {
                         currentCouplesFound.add(coupleTrouve);
 
                         // Ajouter ce couple au graph
-                        graph.addEdge(randomNodeIndex, randomNumber);
-                        graph.addEdge(randomNumber, randomNodeIndex);
+                        addEdgeToOurGraph(graph, randomNodeIndex, randomNumber);
+
 
 
                     }
@@ -226,28 +227,37 @@ public class AlgoFindPaths {
         boolean isEtapesReachEntree = isEtapesReachEntreeFct(etapesIndexPosition, entreesIndexPosition, graph);
 
 
+
         // Verifier que chaque etape est ratachee a une entree
         boolean isWowSpotReachEntree =  isWowSpotReachEntreeFct(wowSpotsIndexPosition, entreesIndexPosition, graph);
 
         // Verifier que chaque node est present dans le current path
         boolean isAllNodeInMinPath = isAllNodeInMinPathFct(allNodes, currentCouplesFound);
 
-        //Si notre resultat est valide et meilleur on le garde
+        // Moment de verite!!!! On verif si notre current path est meilleur que le dernier trouve
         if(currentCostPath < bestTotalCostPath && isEtapesReachEntree && isWowSpotReachEntree && isEtapesEdgesMinAtteint && isAllNodeInMinPath){
             bestTotalCostPath = currentCostPath;
             // Print le meilleur path trouve
-            printPath(currentCouplesFound);
+            if(Main.isPrintMinPathReq) {
+                printPath(currentCouplesFound);
+            }
 
-//            final long tempsCalcul = System.nanoTime() - startTime;
 
-//            if(printTime  == true){
-//                System.out.println("");
-//                System.out.println("Temps de Calcul (Nanosecondes) : " + tempsCalcul);
-//            }
+            if(Main.isPrintExecTimeReq) {
+                long endTimeProg = System.nanoTime() - Main.startTimeProg;
+                System.out.println("Temps d'execution: " + endTimeProg);
+            }
         }
         return;
     }
 
+    // Ajoute les edge a notre graph a partir du couple trouve dans notre algo plus haut
+    static void addEdgeToOurGraph(Graph graph, int randomNodeIndex, int randomNumber) {
+        graph.addEdge(randomNodeIndex, randomNumber);
+        graph.addEdge(randomNumber, randomNodeIndex);
+    }
+
+    // Verifie que tous les nodes sont bel et bien present dans le current path
     static boolean isAllNodeInMinPathFct(ArrayList<Integer> allNodes, ArrayList<Integer[]> currentCouplesFound) {
         boolean isAllNodeInMinPath = false;
         ArrayList<Integer> allNodesForVerif = new ArrayList<>();
@@ -270,6 +280,7 @@ public class AlgoFindPaths {
         return isAllNodeInMinPath;
     }
 
+    // Verifie si le minimum de edges pour chq etapes intermediaires est atteinte
     static boolean isEtapesEdgesMinAtteintFct(ArrayList<Integer> etapesIndexPosition, int[] nbreMaximumEdgesAllow, int[] nbreEdgesPermisRestants) {
         boolean isEtapesEdgesMinAtteint = false;
         for(Integer etape : etapesIndexPosition ) {
@@ -282,6 +293,7 @@ public class AlgoFindPaths {
         return isEtapesEdgesMinAtteint;
     }
 
+    // Verifie si toutes les etapes ont un chemin jusqua une entree
     static boolean isEtapesReachEntreeFct(ArrayList<Integer> etapesIndexPosition, ArrayList<Integer> entreesIndexPosition, Graph graph) {
         boolean isEtapesReachEntree = false;
         for(Integer etape : etapesIndexPosition ) {
@@ -298,6 +310,8 @@ public class AlgoFindPaths {
         return isEtapesReachEntree;
     }
 
+
+    // Verifie si toutes les spots wow  ont un chemin jusqua une entree
     static boolean isWowSpotReachEntreeFct(ArrayList<Integer> wowSpotsIndexPosition, ArrayList<Integer> entreesIndexPosition, Graph graph) {
         boolean isWowSpotReachEntree = false;
         for(Integer wowSpot : wowSpotsIndexPosition ) {
@@ -314,7 +328,7 @@ public class AlgoFindPaths {
         return isWowSpotReachEntree;
     }
 
-
+    // Print le min path
     static void printPath(ArrayList<Integer[]> currentCouplesFound) {
         System.out.println("-----------------------------------------------");
         for(int i = 0; i < currentCouplesFound.size(); i++){

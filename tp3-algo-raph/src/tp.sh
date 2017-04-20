@@ -5,10 +5,6 @@ do
 key="$1"
 
 case $key in
-    -a|--algo)
-    ALGO="$2"
-    shift
-    ;;
     -e|--ex_path)
     EX_PATH="$2"
     shift
@@ -24,4 +20,4 @@ esac
 shift
 done
 
-java ./tp3.java $ALGO $EX_PATH $OPTIONS
+java Main.class $EX_PATH $OPTIONS
