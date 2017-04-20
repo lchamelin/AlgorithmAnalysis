@@ -20,4 +20,4 @@ esac
 shift
 done
 
-javac Main.java $EX_PATH $OPTIONS
+java -jar tp3-algo-raph.jar $EX_PATH $OPTIONS
